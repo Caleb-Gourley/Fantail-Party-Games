@@ -14,4 +14,8 @@ public class DartDirectionAdjusment : MonoBehaviour
        
     }
 }
+<<<<<<< Assets/Scripts/DartDirectionAdjusment.cs
+
+// luke was here branch test
 // wagwan 
+>>>>>>> Assets/Scripts/DartDirectionAdjusment.cs
