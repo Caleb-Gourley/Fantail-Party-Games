@@ -17,6 +17,12 @@ public class DartSpawner : MonoBehaviour
     private Vector3 currentPosition;
     public Vector3 velocity;
 
+    private float growDuration = 0.1f;
+    private Vector3 maxDartSize = new Vector3(0.1f, 0.1f, 0.1f);
+    public ParticleSystem particle;
+    private bool spawned = false;
+
+
 
     // Update is called once per frame
     void FixedUpdate()
@@ -35,17 +41,26 @@ public class DartSpawner : MonoBehaviour
 
     private void SpawnDartOnPinch(Hand hand, GameObject dart)
     {
-        if(fingerTracker.GetDistanceBetween(hand.index, hand.thumb) < distanceToPinch || fingerTracker.GetDistanceBetween(hand.middle, hand.thumb) < distanceToPinch)
+        if (fingerTracker.GetDistanceBetween(hand.index, hand.thumb) < distanceToPinch || fingerTracker.GetDistanceBetween(hand.middle, hand.thumb) < distanceToPinch)
         {
             dart.SetActive(true);
+            if (!spawned)
+            {
+                StartCoroutine(DartGrow());
+                spawned = true;
+
+            }
         }
         else
         {
             if (dart.activeSelf)
             {
+                spawned = false;
+                dartModel.transform.localScale = Vector3.zero;
+                particle.Stop();
                 GameObject newDart = Instantiate(throwableDart, transform.position, transform.rotation);
                 newDart.GetComponent<Rigidbody>().isKinematic = false;
-                newDart.GetComponent<Rigidbody>().velocity = velocity;
+                newDart.GetComponent<Rigidbody>().velocity = velocity * 3;
                 if (newDart.GetComponent<Rigidbody>().velocity.magnitude < 1)
                 {
                     newDart.GetComponent<Rigidbody>().useGravity = true;
@@ -69,7 +84,7 @@ public class DartSpawner : MonoBehaviour
 
             velocityList[veclocityIndex] = currentVelocity;
             veclocityIndex = (veclocityIndex + 1) % 5;
-            
+
             Vector3 averageVelocity = Vector3.zero;
             for (int i = 0; i < 5; i++)
             {
@@ -79,5 +94,21 @@ public class DartSpawner : MonoBehaviour
             velocity = averageVelocity;
         }
         previousPosition = transform.position;
+    }
+
+    IEnumerator DartGrow() //Particles as well
+    {
+        particle.Play();
+        float elapsedTime = 0f;
+
+        while (elapsedTime < growDuration)
+        {
+            dartModel.transform.localScale = Vector3.Lerp(Vector3.zero, maxDartSize, elapsedTime / growDuration);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        dartModel.transform.localScale = maxDartSize;
     }
 }
