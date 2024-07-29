@@ -59,9 +59,10 @@ public class DartSpawner : MonoBehaviour
                 dartModel.transform.localScale = Vector3.zero;
                 particle.Stop();
                 GameObject newDart = Instantiate(throwableDart, transform.position, transform.rotation);
+                Destroy(newDart,5);
                 newDart.GetComponent<Rigidbody>().isKinematic = false;
                 newDart.GetComponent<Rigidbody>().velocity = velocity * 3;
-                if (newDart.GetComponent<Rigidbody>().velocity.magnitude < 1)
+                if (newDart.GetComponent<Rigidbody>().velocity.magnitude < 3)
                 {
                     newDart.GetComponent<Rigidbody>().useGravity = true;
                 }

@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class DartDirectionAdjusment : MonoBehaviour
 {
- 
+    public GameObject particle;
+    public Transform particleSpawnLocation;
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<BoxCollider>() || other.GetComponent<MeshCollider>())
         {
-            Destroy(gameObject);
+            GameObject TempParticles = Instantiate(particle);
+            TempParticles.transform.position = particleSpawnLocation.position;
+            gameObject.SetActive(false);
+            Destroy(TempParticles, 0.6f);
+            Destroy(gameObject,0.6f);
         }
        
     }
 }
 
-// luke was here branch test
-// wagwan 
 
