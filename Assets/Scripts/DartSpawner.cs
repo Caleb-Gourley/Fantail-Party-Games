@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class DartSpawner : MonoBehaviour
 {
+    public Transform headLocation;
     public FingerTracker fingerTracker;
     public float distanceToPinch = 0.03f;
     public GameObject dartModel;
@@ -55,28 +56,57 @@ public class DartSpawner : MonoBehaviour
         {
             if (dart.activeSelf)
             {
-                spawned = false;
-                dartModel.transform.localScale = Vector3.zero;
-                particle.Stop();
-                GameObject newDart = Instantiate(throwableDart, transform.position, transform.rotation);
-                Destroy(newDart,5);
-                newDart.GetComponent<Rigidbody>().isKinematic = false;
-                newDart.GetComponent<Rigidbody>().velocity = velocity * 3;
-                if (newDart.GetComponent<Rigidbody>().velocity.magnitude < 3)
-                {
-                    newDart.GetComponent<Rigidbody>().useGravity = true;
-                }
-                else
-                {
-                    newDart.transform.rotation = Quaternion.LookRotation(newDart.GetComponent<Rigidbody>().velocity) * Quaternion.Euler(-90, 0, 0);
-                    newDart.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, newDart.GetComponent<Rigidbody>().velocity.magnitude * 100, 0);
-                }
+                SpawnDart();
             }
 
             dart.SetActive(false);
         }
     }
 
+
+
+    private void SpawnDart()
+    {   
+        dartModel.transform.localScale = Vector3.zero;
+        particle.Stop();
+
+
+        Vector3 infrontOfHead = headLocation.forward;
+        Debug.DrawRay(headLocation.position, infrontOfHead * 100f, Color.blue, 1f);
+        Debug.DrawRay(transform.position, velocity * 100f, Color.red, 1f);
+
+        Vector3 newVelocity = velocity;
+
+
+        if (Physics.Raycast(transform.position, infrontOfHead, out RaycastHit hit))
+        {
+            Vector3 direction = (hit.point - transform.position).normalized;
+            float alignmentAngle = Vector3.Angle(velocity.normalized, direction);
+
+            Debug.DrawRay(transform.position, velocity.magnitude * direction * 100f, Color.yellow, 1f);
+            if (alignmentAngle < 30)
+            {
+                newVelocity = (velocity.magnitude * direction * 2+ velocity)/3;
+                Debug.DrawRay(transform.position, newVelocity * 100f, Color.green, 1f);
+            }    
+        }
+
+        GameObject newDart = Instantiate(throwableDart, transform.position, transform.rotation); 
+        newDart.GetComponent<Rigidbody>().isKinematic = false;
+        newDart.GetComponent<Rigidbody>().velocity = newVelocity * 3;
+        if (newDart.GetComponent<Rigidbody>().velocity.magnitude < 2)
+        {
+            newDart.GetComponent<Rigidbody>().useGravity = true;
+        }
+        else
+        {
+            newDart.transform.rotation = Quaternion.LookRotation(newDart.GetComponent<Rigidbody>().velocity) * Quaternion.Euler(-90, 0, 0);
+            newDart.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, newDart.GetComponent<Rigidbody>().velocity.magnitude * 100, 0);
+        }
+        Destroy(newDart, 5);
+        spawned = false;
+    }
+    
     private void CalculateVelocity()
     {
         Vector3 currentVelocity = (transform.position - previousPosition) / Time.fixedDeltaTime;
@@ -96,6 +126,7 @@ public class DartSpawner : MonoBehaviour
         }
         previousPosition = transform.position;
     }
+    
 
     IEnumerator DartGrow() //Particles as well
     {
