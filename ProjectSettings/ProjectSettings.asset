@@ -170,7 +170,11 @@ PlayerSettings:
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
+<<<<<<< HEAD
   AndroidBundleVersionCode: 6
+=======
+  AndroidBundleVersionCode: 3
+>>>>>>> 3b82d39bef7d2efeb62dcd2b1781214add54c830
   AndroidMinSdkVersion: 29
   AndroidTargetSdkVersion: 32
   AndroidPreferredInstallLocation: 0
