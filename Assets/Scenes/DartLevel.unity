@@ -1830,6 +1830,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 485444855}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &173885415
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 173885416}
+  m_Layer: 0
+  m_Name: Anchor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &173885416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 173885415}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &183479394
 GameObject:
   m_ObjectHideFlags: 0
@@ -10000,7 +10031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88f1365b06dffc45b5dc7587842a206, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anchorPrefab: {fileID: 1978002011806910258, guid: 317581c740325294793bf2e89f523e8e, type: 3}
+  anchorPrefab: {fileID: 173885415}
   networkData: {fileID: 987437317}
   networkMessenger: {fileID: 987437318}
 --- !u!114 &987437320
@@ -15557,6 +15588,81 @@ Transform:
   - {fileID: 1572569071}
   m_Father: {fileID: 1402681084}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1512295127
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1512295130}
+  - component: {fileID: 1512295129}
+  - component: {fileID: 1512295128}
+  m_Layer: 0
+  m_Name: '[BuildingBlock] Find Spawn Positions'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1512295128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512295127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d14e43228043c04db9e374568cb89a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpawnOnStart: 1
+  SpawnObject: {fileID: 2304237192425360383, guid: 8b9c881e4f146bc4199fbef6cb3bca1a, type: 3}
+  SpawnAmount: 30
+  MaxIterations: 1000
+  SpawnLocations: 0
+  Labels: -1
+  CheckOverlaps: 0
+  OverrideBounds: -1
+  LayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  SurfaceClearanceDistance: 0.5
+--- !u!114 &1512295129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512295127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b023183069df224080314a560e6e1ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockId: 93762ef0-9738-45f4-bb87-bdb9a0acb994
+  instanceId: 5a0c1af8-2ca8-45d1-901c-f5bfb109ab86
+  version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 
+    _installationVariants: []
+--- !u!4 &1512295130
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512295127}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1512577447
 GameObject:
   m_ObjectHideFlags: 0
@@ -15708,7 +15814,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1527730078}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a012388ced1fb2944845072f0016a302, type: 3}
   m_Name: 
@@ -27758,6 +27864,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   popEffect: {fileID: 5713237141055856367}
+  balloonModels: []
+  balloonRendererTop: []
+  balloonRendererBottom: []
+  balloonColours: []
+  balloonTypeIndex: 0
+  balloonColourIndex: 0
 --- !u!64 &6082353919174435697
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -27942,3 +28054,5 @@ SceneRoots:
   - {fileID: 7520718408047091270}
   - {fileID: 1527730080}
   - {fileID: 314750834}
+  - {fileID: 173885416}
+  - {fileID: 1512295130}
