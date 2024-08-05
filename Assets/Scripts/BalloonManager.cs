@@ -38,7 +38,7 @@ public class BalloonManager : MonoBehaviour
         GetComponent<NetworkObject>().Spawn();
 
         //Launches Balloon (Not working)
-        Vector3 launchForce = (transform.up * UnityEngine.Random.Range(-1f, 1f)) + (transform.right * UnityEngine.Random.Range(-1f, 1f))
+        Vector3 launchForce = (transform.up * UnityEngine.Random.Range(-1f, 1f)) + (transform.right * UnityEngine.Random.Range(-1f, 1f));
         GetComponent<Rigidbody>().AddForce(launchForce, ForceMode.Impulse);
     }
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -95,6 +96,7 @@ public class DartSpawner : MonoBehaviour
         newDart.tag = "Dart"; 
         // Tag for collision detection and maybe later each camera rig could set a unique tag for each player darts by adding a dart 
         // data script to the dart prefab and setting the player number here - Luke
+        newDart.GetComponent<NetworkObject>().Spawn();
         newDart.GetComponent<Rigidbody>().isKinematic = false;
         newDart.GetComponent<Rigidbody>().velocity = newVelocity * 3;
         if (newDart.GetComponent<Rigidbody>().velocity.magnitude < 2)
