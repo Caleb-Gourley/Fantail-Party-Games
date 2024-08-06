@@ -13241,8 +13241,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxPlayersPerRoom: 4
   lobbyName: lobbyName
-  maxRetries: 10
-  retryInterval: {x: 0.1, y: 0.5}
+  maxRetries: 500
+  retryInterval: {x: 0.1, y: 0.3}
 --- !u!114 &1168362599
 MonoBehaviour:
   m_ObjectHideFlags: 0
