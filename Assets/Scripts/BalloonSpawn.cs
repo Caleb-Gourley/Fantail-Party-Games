@@ -1,5 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using static FindSpawnPositions;
+using static UnityEditor.Progress;
 
 public class BalloonSpawn : MonoBehaviour
 {
@@ -8,8 +11,10 @@ public class BalloonSpawn : MonoBehaviour
     public float growthTime = 1f;
     public float waitTime = 2f;
     public float verticalLaunchForce = 10f;
-    public float horizontalLaunchForce = 5f;  
+    public float horizontalLaunchForce = 5f;
+    
     public float launchOffset = 2f; // Adjust ballooon spawn height to avoid collision 
+
 
     private void Start()
     {
@@ -34,6 +39,7 @@ public class BalloonSpawn : MonoBehaviour
         Vector3 spawnPosition = transform.position + Vector3.up * launchOffset;
         GameObject balloon = Instantiate(balloonPrefab, spawnPosition, Quaternion.identity);
         Rigidbody rb = balloon.GetComponent<Rigidbody>();
+        
 
         rb.isKinematic = false; // Physics not work if kinematic is true
         yield return new WaitForFixedUpdate(); // Wait for physics to update
