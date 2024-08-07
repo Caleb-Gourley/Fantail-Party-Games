@@ -8,12 +8,9 @@ public class BalloonManager : MonoBehaviour
 {
     public ParticleSystem popEffect;
     public GameObject[] balloonModels;
-    public Renderer[] balloonRendererTop;
-    public Renderer[] balloonRendererBottom;
-    public Material[] balloonColours;
 
-    //[HideInInspector]
-    public FindSpawnPositions findSpawnPositions;
+    [HideInInspector]
+    public BalloonSpawn balloonSpawner;
 
     public int balloonTypeIndex;
     public int balloonColourIndex;
@@ -24,29 +21,43 @@ public class BalloonManager : MonoBehaviour
     public Vector3 finalSize = new Vector3(0.3f, 0.3f, 0.3f);
 
     //Stats for upwards Rotation
-    private float rotationSpeed = 1f; 
+    private float rotationSpeed = 6f; 
     private Quaternion targetRotation;
 
     void Start()
     {
         transform.parent = null;
-        findSpawnPositions = FindObjectOfType<FindSpawnPositions>();
+        balloonSpawner = FindObjectOfType<BalloonSpawn>();
         //Gets a random balloon type and sets a random colour if it's not a bomb
-        if (UnityEngine.Random.Range(0f, 1f) <= 0.05f)
+        float randomIndex = UnityEngine.Random.Range(0f, 1f);   //5%  
+        if (randomIndex <= 0.05f)
         {
-            balloonTypeIndex = 0;
+            balloonTypeIndex = 0;                         
         }
-        else
+        else if (randomIndex > 0.05f && randomIndex <= 0.15f)   //10%
         {
-            balloonTypeIndex = UnityEngine.Random.Range(1, balloonModels.Length);
+            balloonTypeIndex = 5;
         }
-        if(balloonTypeIndex != 0 )
+        else if(randomIndex > 0.15f && randomIndex <= 0.3f)    //15%
         {
-            balloonColourIndex = UnityEngine.Random.Range(0, balloonColours.Length);
-            balloonRendererTop[balloonTypeIndex].material = balloonColours[balloonColourIndex];
-            balloonRendererBottom[balloonTypeIndex].material = balloonColours[balloonColourIndex];
+            balloonTypeIndex = 4;
         }
-        balloonModels[balloonTypeIndex].SetActive(true);
+        else if (randomIndex > 0.3f && randomIndex <= 0.50f)   //20%
+        {
+            balloonTypeIndex = 3;
+        }
+        else if (randomIndex > 0.50f && randomIndex <= 0.75f)   //25%
+        {
+            balloonTypeIndex = 2;
+        }
+        else //25
+        {
+            balloonTypeIndex = 1;
+        }
+        
+
+
+            balloonModels[balloonTypeIndex].SetActive(true);
 
         //Tells network manager that it has spawned
         GetComponent<NetworkObject>().Spawn();
@@ -62,7 +73,7 @@ public class BalloonManager : MonoBehaviour
         FaceUp();
         if (test)
         {
-        //    --findSpawnPositions.ammountSpawned;
+            --balloonSpawner.balloonsSpawned;
             Destroy(gameObject);
         }
     }
@@ -71,7 +82,7 @@ public class BalloonManager : MonoBehaviour
     {
         // Slowly makes balloons face up
         Quaternion upright = Quaternion.FromToRotation(transform.up, Vector3.up) * transform.rotation;
-        float angle = Mathf.Sin(Time.time * 5) * 0.1f;
+        float angle = Mathf.Sin(Time.time * 100) * 0.1f;
         Quaternion currentRotation = Quaternion.AngleAxis(angle, transform.right);
         targetRotation = upright * currentRotation;
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
@@ -81,11 +92,12 @@ public class BalloonManager : MonoBehaviour
     {
         float elapsedTime = 0f;
 
-        Vector3 launchForce = (transform.up * UnityEngine.Random.Range(-0.01f, 0.01f)) + (transform.right * UnityEngine.Random.Range(-0.01f, 0.01f));
+        Vector3 launchForce = (transform.up * UnityEngine.Random.Range(-1f, 1f)) + (transform.right * UnityEngine.Random.Range(-1f, 1f));
+        GetComponent<Rigidbody>().AddForce(launchForce, ForceMode.Impulse);
         while (elapsedTime < timeToGrow)
         {
             
-            GetComponent<Rigidbody>().AddForce(launchForce, ForceMode.Impulse);
+           // GetComponent<Rigidbody>().AddForce(launchForce, ForceMode.Impulse);
             transform.localScale = Vector3.Lerp(Vector3.zero, finalSize, elapsedTime / timeToGrow);
             elapsedTime += Time.deltaTime;
             yield return null; 
@@ -115,6 +127,7 @@ public class BalloonManager : MonoBehaviour
             // ScoreManager.Instance.AddScore(dartData.playerNumber, 100);
             // This is just an example because it still means we have to set a player number from the dart spawner script somehow - Luke
             //--findSpawnPositions.ammountSpawned;
+            --balloonSpawner.balloonsSpawned;
             Destroy(gameObject);
 
         }
