@@ -7,6 +7,11 @@ public class BombSpawner : MonoBehaviour
 {
     public GameObject bomb;
     public GameObject bombSpawnpoint;
+    public float timeToWaitBeforeSpawn;
+    private GameObject activeBomb;
+
+    private bool spawningBomb = false;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -16,12 +21,23 @@ public class BombSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(activeBomb == null && !spawningBomb)
+        {
+            StartCoroutine(StartBombSpawn());
+        }
     }
 
     void SpawnBomb()
     {
-        var currentBomb = Instantiate(bomb, bombSpawnpoint.transform).GetComponent<NetworkObject>();
-        currentBomb.Spawn(); 
+        activeBomb = Instantiate(bomb, bombSpawnpoint.transform);
+        activeBomb.GetComponent<NetworkObject>().Spawn(); 
+    }
+
+    IEnumerator StartBombSpawn()
+    {
+        spawningBomb = true;
+        yield return new WaitForSeconds(timeToWaitBeforeSpawn);
+        SpawnBomb();
+        spawningBomb = false;
     }
 }
