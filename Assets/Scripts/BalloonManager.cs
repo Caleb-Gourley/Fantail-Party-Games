@@ -62,7 +62,7 @@ public class BalloonManager : MonoBehaviour
         FaceUp();
         if (test)
         {
-            --findSpawnPositions.ammountSpawned;
+        //    --findSpawnPositions.ammountSpawned;
             Destroy(gameObject);
         }
     }
@@ -114,7 +114,7 @@ public class BalloonManager : MonoBehaviour
             // DartData  dartData = collision.gameObject.GetComponent<DartData>();
             // ScoreManager.Instance.AddScore(dartData.playerNumber, 100);
             // This is just an example because it still means we have to set a player number from the dart spawner script somehow - Luke
-            --findSpawnPositions.ammountSpawned;
+            //--findSpawnPositions.ammountSpawned;
             Destroy(gameObject);
 
         }
