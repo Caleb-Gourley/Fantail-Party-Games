@@ -1,5 +1,7 @@
+using Meta.XR.MultiplayerBlocks.NGO;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -24,20 +26,37 @@ public class DartSpawner : MonoBehaviour
     private bool spawned = false;
 
 
+    public float checkRadius = 0.05f; 
+    public float checkLength = 100.0f;
+
+    public AutoMatchmakingNGO autoMatchmakingNGO;
+    public bool hasGameStarted = false;
+
+    private void Start()
+    {
+        if (!hasGameStarted && autoMatchmakingNGO != null)
+        {
+            StartCoroutine(Wait(autoMatchmakingNGO.maxRetries * autoMatchmakingNGO.retryInterval.y));
+        }
+    }
+
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (hand == "left")
+        if (hasGameStarted)
         {
-            SpawnDartOnPinch(fingerTracker.left, dartModel);
-        }
-        else if (hand == "right")
-        {
-            SpawnDartOnPinch(fingerTracker.right, dartModel);
-        }
+            if (hand == "left")
+            {
+                SpawnDartOnPinch(fingerTracker.left, dartModel);
+            }
+            else if (hand == "right")
+            {
+                SpawnDartOnPinch(fingerTracker.right, dartModel);
+            }
 
-        CalculateVelocity();
+            CalculateVelocity();
+        }
     }
 
     private void SpawnDartOnPinch(Hand hand, GameObject dart)
@@ -63,7 +82,39 @@ public class DartSpawner : MonoBehaviour
         }
     }
 
+    private Vector3 CheckForBalloons(Vector3 velocityDirection)
+    {
+        Vector3 checkStart = transform.position;
+        Vector3 checkEnd = transform.position + velocityDirection * checkLength;
 
+        Collider[] hitColliders = Physics.OverlapCapsule(checkStart, checkEnd, checkRadius);
+
+        List<GameObject> balloons = new List<GameObject>();
+
+        foreach (Collider collider in hitColliders)
+        {
+            if (collider.CompareTag("Balloon"))
+            {
+                balloons.Add(collider.gameObject);
+            }
+        }
+
+        Vector3 closestVector = Vector3.one;
+        float closestAngle = 100;
+
+        foreach (GameObject balloon in balloons)
+        {
+            Vector3 direction = (balloon.transform.position - transform.position).normalized;
+            float alignmentAngle = Vector3.Angle(velocityDirection, direction);
+            if(alignmentAngle <= closestAngle)
+            {
+                closestAngle = alignmentAngle;
+                closestVector = direction;
+            }
+        }
+
+        return closestVector;
+    }
 
     private void SpawnDart()
     {   
@@ -86,15 +137,21 @@ public class DartSpawner : MonoBehaviour
             Debug.DrawRay(transform.position, velocity.magnitude * direction * 100f, Color.yellow, 1f);
             if (alignmentAngle < 30)
             {
-                newVelocity = (velocity.magnitude * direction * 2+ velocity)/3;
-                Debug.DrawRay(transform.position, newVelocity * 100f, Color.green, 1f);
-            }    
+                
+                Debug.DrawRay(transform.position, ((velocity.magnitude * direction * 2 + velocity) / 3) * 100f, Color.green, 1f);
+                Vector3 closestVector = CheckForBalloons((velocity.magnitude * direction * 2 + velocity) / 3);
+                newVelocity = (velocity.magnitude * direction * 1 + velocity + closestVector * 2) / 4;
+                Debug.DrawRay(transform.position, newVelocity * 100f, Color.black, 1f);
+
+            }
+            
         }
 
         GameObject newDart = Instantiate(throwableDart, transform.position, transform.rotation); 
         newDart.tag = "Dart"; 
         // Tag for collision detection and maybe later each camera rig could set a unique tag for each player darts by adding a dart 
         // data script to the dart prefab and setting the player number here - Luke
+        newDart.GetComponent<NetworkObject>().Spawn();
         newDart.GetComponent<Rigidbody>().isKinematic = false;
         newDart.GetComponent<Rigidbody>().velocity = newVelocity * 3;
         if (newDart.GetComponent<Rigidbody>().velocity.magnitude < 2)
@@ -145,5 +202,11 @@ public class DartSpawner : MonoBehaviour
         }
 
         dartModel.transform.localScale = maxDartSize;
+    }
+
+    IEnumerator Wait(float waitAmount)
+    {
+        yield return new WaitForSeconds(waitAmount * 5);
+        hasGameStarted = true;
     }
 }
