@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class BombTimer : MonoBehaviour
@@ -21,6 +22,7 @@ public class BombTimer : MonoBehaviour
         if(timerLength <= 0)
         {
             Debug.Log("Exploded");
+            GetComponent<NetworkObject>().Despawn();
             Destroy(gameObject);
             if (playerInBombRangeTracker != null)
             {
