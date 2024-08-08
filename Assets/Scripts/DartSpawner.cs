@@ -104,10 +104,13 @@ public class DartSpawner : MonoBehaviour
 
         foreach (GameObject balloon in balloons)
         {
+            Debug.Log("Balloon found");
             Vector3 direction = (balloon.transform.position - transform.position).normalized;
             float alignmentAngle = Vector3.Angle(velocityDirection, direction);
             if(alignmentAngle <= closestAngle)
             {
+                Debug.Log(balloon.GetComponent<BalloonManager>().balloonTypeIndex);
+                Debug.DrawRay(transform.position, direction * 100f, Color.magenta, 20f);
                 closestAngle = alignmentAngle;
                 closestVector = direction;
             }
@@ -123,8 +126,8 @@ public class DartSpawner : MonoBehaviour
 
 
         Vector3 infrontOfHead = headLocation.forward;
-        Debug.DrawRay(headLocation.position, infrontOfHead * 100f, Color.blue, 1f);
-        Debug.DrawRay(transform.position, velocity * 100f, Color.red, 1f);
+       // Debug.DrawRay(headLocation.position, infrontOfHead * 100f, Color.blue, 1f);
+       // Debug.DrawRay(transform.position, velocity * 100f, Color.red, 1f);
 
         Vector3 newVelocity = velocity;
 
@@ -134,15 +137,16 @@ public class DartSpawner : MonoBehaviour
             Vector3 direction = (hit.point - transform.position).normalized;
             float alignmentAngle = Vector3.Angle(velocity.normalized, direction);
 
-            Debug.DrawRay(transform.position, velocity.magnitude * direction * 100f, Color.yellow, 1f);
+           // Debug.DrawRay(transform.position, velocity.magnitude * direction * 100f, Color.yellow, 1f);
             if (alignmentAngle < 30)
             {
                 
                 Debug.DrawRay(transform.position, ((velocity.magnitude * direction * 2 + velocity) / 3) * 100f, Color.green, 1f);
                 Vector3 closestVector = CheckForBalloons((velocity.magnitude * direction * 2 + velocity) / 3);
                 newVelocity = (velocity.magnitude * direction * 1 + velocity + closestVector * 2) / 4;
+                //newVelocity = closestVector;
+               // Debug.Log("LockOn");
                 Debug.DrawRay(transform.position, newVelocity * 100f, Color.black, 1f);
-
             }
             
         }
@@ -151,7 +155,7 @@ public class DartSpawner : MonoBehaviour
         newDart.tag = "Dart"; 
         // Tag for collision detection and maybe later each camera rig could set a unique tag for each player darts by adding a dart 
         // data script to the dart prefab and setting the player number here - Luke
-        newDart.GetComponent<NetworkObject>().Spawn();
+        //newDart.GetComponent<NetworkObject>().Spawn();
         newDart.GetComponent<Rigidbody>().isKinematic = false;
         newDart.GetComponent<Rigidbody>().velocity = newVelocity * 3;
         if (newDart.GetComponent<Rigidbody>().velocity.magnitude < 2)
