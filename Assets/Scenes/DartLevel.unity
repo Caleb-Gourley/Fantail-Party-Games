@@ -10784,7 +10784,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   particle: {fileID: 2007675435}
-  checkRadius: 0.1
+  checkRadius: 0.2
   checkLength: 1000
   autoMatchmakingNGO: {fileID: 1168362598}
   hasGameStarted: 1
@@ -15683,7 +15683,7 @@ MonoBehaviour:
   autoMatchmakingNGO: {fileID: 1168362598}
   spawnPositions: {fileID: 1512295128}
   hasGameStarted: 0
-  maxAmount: 100
+  maxAmount: 50
   spawnRate: 0.2
   balloonsSpawned: 0
 --- !u!1 &1512577447
@@ -21286,7 +21286,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   velocity: {x: 0, y: 0, z: 0}
   particle: {fileID: 2063316213}
-  checkRadius: 0.1
+  checkRadius: 0.2
   checkLength: 1000
   autoMatchmakingNGO: {fileID: 1168362598}
   hasGameStarted: 1

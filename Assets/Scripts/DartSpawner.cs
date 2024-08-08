@@ -99,7 +99,7 @@ public class DartSpawner : MonoBehaviour
             }
         }
 
-        Vector3 closestVector = Vector3.one;
+        Vector3 closestVector = velocityDirection;
         float closestAngle = 100;
 
         foreach (GameObject balloon in balloons)
@@ -110,9 +110,9 @@ public class DartSpawner : MonoBehaviour
             if(alignmentAngle <= closestAngle)
             {
                 Debug.Log(balloon.GetComponent<BalloonManager>().balloonTypeIndex);
-                Debug.DrawRay(transform.position, direction * 100f, Color.magenta, 20f);
+                Debug.DrawRay(transform.position, direction * 100f, Color.magenta, 1f);
                 closestAngle = alignmentAngle;
-                closestVector = direction;
+                closestVector = (velocityDirection + direction * 2)/3;
             }
         }
 
@@ -141,11 +141,9 @@ public class DartSpawner : MonoBehaviour
             if (alignmentAngle < 30)
             {
                 
-                Debug.DrawRay(transform.position, ((velocity.magnitude * direction * 2 + velocity) / 3) * 100f, Color.green, 1f);
-                Vector3 closestVector = CheckForBalloons((velocity.magnitude * direction * 2 + velocity) / 3);
-                newVelocity = (velocity.magnitude * direction * 1 + velocity + closestVector * 2) / 4;
-                //newVelocity = closestVector;
-               // Debug.Log("LockOn");
+                Debug.DrawRay(transform.position, ((velocity.magnitude * direction + velocity) / 2) * 100f, Color.green, 1f);
+                Vector3 closestVector = CheckForBalloons((velocity.magnitude * direction + velocity) / 2);
+                newVelocity = closestVector;
                 Debug.DrawRay(transform.position, newVelocity * 100f, Color.black, 1f);
             }
             
