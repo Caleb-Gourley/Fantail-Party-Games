@@ -9,34 +9,48 @@ public class BombTimer : MonoBehaviour
     [SerializeField] private PlayersInBombRangeTracker playerInBombRangeTracker;
     [SerializeField] private float minTime, maxTime;
     private float timerLength;
+
+    GameObject playerManager;
     private List<GameObject> playersList;
+    private List<GameObject> tempPlayersList;
+
+    private GameObject chosenPlayerTarget;
+
+    public float bombSpeed = 0.25f;
+
+    public float forceMagnitude = 10f;
+    private Rigidbody rb;
     //private LineRenderer lineRenderer;
 
-    public GameObject debugPlayer;
+    //public GameObject debugPlayer;
 
     // Start is called before the first frame update
     void Start()
     {
         //lineRenderer = GetComponent<LineRenderer>();
 
+        playerManager = GameObject.Find("PlayerManager");
+
+        playersList = playerManager.GetComponent<BombPlayersManager>().GetPlayersList();
+        Debug.Log("PLAYERSSSSSS IN LIST: " + playersList.Count);
+
+        tempPlayersList = new List<GameObject>();
+
+        rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+
         timerLength = Random.Range(minTime, maxTime);
         Debug.Log(timerLength);
 
-        playersList = new List<GameObject>();
+        chosenPlayerTarget = playerManager.GetComponent<BombPlayersManager>().RandomSelectPlayerFromList();
 
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        playersList.AddRange(players);
+        ///playersList = new List<GameObject>();
 
-        Debug.Log(playersList.Count);
-        
-        ///Debugging Purposes:
-        //foreach(GameObject player in playersList)
-        //{
-        //    Debug.Log(player.name);
-        //}
+        ///addPlayersToList();
     }
 
     // Update is called once per frame
+
     void Update()
     {
         
@@ -45,8 +59,18 @@ public class BombTimer : MonoBehaviour
             ShootLinecast();
         }
 
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            KickToPlayer();
+        }
 
+        transform.position = Vector3.MoveTowards(transform.position, chosenPlayerTarget.transform.position, bombSpeed * Time.deltaTime);
 
+        //if (playersList.Count <= 0)
+        //{
+        //    Debug.Log("ALL Players Eliminated...RESTARTING");
+        //    addPlayersToList();
+        //}
 
         timerLength -= Time.deltaTime;
         if(timerLength <= 0)
@@ -65,6 +89,18 @@ public class BombTimer : MonoBehaviour
         timerLength = Random.Range(minTime, maxTime);
         Debug.Log("BOMB TIMER LENGTH: " + timerLength);
 
+        Debug.Log(tempPlayersList.Count);
+
+        playerManager.GetComponent<BombPlayersManager>().SetTempPlayersList(tempPlayersList);
+
+        playerManager.GetComponent<BombPlayersManager>().SwapTempPlayerListToPlayerList();
+
+        Debug.Log("XXXXXXXXXXXXXXXXXXXXXXXXXX");
+
+        //playersList = tempPlayersList;
+        //Debug.Log("PLAYER COUNT: " + playersList.Count);
+
+
         //GetComponent<NetworkObject>().Despawn();
         Destroy(gameObject);
 
@@ -80,6 +116,39 @@ public class BombTimer : MonoBehaviour
         //}
     }
 
+    //void addPlayersToList()
+    //{
+    //    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+    //    foreach  (GameObject player in players)
+    //    {
+    //        if (!checkIfPlayerInList(player))
+    //        {
+    //            playersList.Add(player);
+    //        }
+    //    }
+
+
+    //    Debug.Log(playersList.Count);
+
+    //    ///Debugging Purposes:
+    //    //foreach(GameObject player in playersList)
+    //    //{
+    //    //    Debug.Log(player.name);
+    //    //}
+    //}
+
+    //bool checkIfPlayerInList(GameObject player)
+    //{
+    //    if (playersList.Contains(player))
+    //    {
+    //        return true;
+    //    }
+    //    else
+    //    {
+    //        return false;
+    //    }
+    //}
+
     void ShootLinecast()
     {
         foreach (GameObject player in playersList)
@@ -91,8 +160,24 @@ public class BombTimer : MonoBehaviour
             if (hit.collider.tag == "Wall")
             {
                 Debug.Log("LINECAST HIT  WALL: " + hit.collider.name);
+
+                Debug.Log("ADD TO TEMP LIST");
+                tempPlayersList.Add(player);
             }
+            //else
+            //{
+                
+            //}
         }
+
+    }
+
+    void KickToPlayer()
+    {
+
+        //Vector3 normalizedDirection = (debugPlayer.transform.position-transform.position).normalized;
+
+        //rb.AddForce(normalizedDirection * forceMagnitude, ForceMode.Impulse);
 
     }
 }

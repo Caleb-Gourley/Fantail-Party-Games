@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: 4e14e0ba-51f2-4a5c-a822-e304bf36d48c
-  instanceId: 017f671b-bb1d-4678-ad71-a6937dba6193
+  instanceId: 7716750c-60c9-445c-bc58-b397d6f80a1f
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: fb25cac7-8f37-455d-ac01-3fa41a1be37d
@@ -272,7 +272,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: e9b4b64f-1c7e-4dff-8f3c-ce409bdc3951
-  instanceId: feacf518-4138-4070-b43a-844240f20833
+  instanceId: 4289ba04-03ef-4db7-b13f-5b00c2fbee31
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: d5c83ff6-47e4-4c98-acdd-041d4686912f
@@ -306,7 +306,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!64 &2547978097165279544
 MeshCollider:
@@ -453,6 +453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInBombRangeTracker: {fileID: 799799424334503954}
-  minTime: 5
-  maxTime: 5
-  debugPlayer: {fileID: 0}
+  minTime: 10
+  maxTime: 15
+  bombSpeed: 0.25
+  forceMagnitude: 0.5
