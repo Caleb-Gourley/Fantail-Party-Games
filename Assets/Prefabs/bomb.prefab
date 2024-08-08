@@ -159,8 +159,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -7237263888706020750, guid: a0adfce5e2ecaa74f8264aea65c2c4c7, type: 3}
-  - {fileID: 4874126678125670354, guid: a0adfce5e2ecaa74f8264aea65c2c4c7, type: 3}
+  - {fileID: 2100000, guid: 30f15124d4bbccb45afc55abe771f5c9, type: 2}
+  - {fileID: 2100000, guid: 30f15124d4bbccb45afc55abe771f5c9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -453,5 +453,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInBombRangeTracker: {fileID: 799799424334503954}
-  minTime: 15
-  maxTime: 30
+  minTime: 5
+  maxTime: 5
+  debugPlayer: {fileID: 0}

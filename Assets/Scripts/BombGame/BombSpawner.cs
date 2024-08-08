@@ -30,7 +30,7 @@ public class BombSpawner : MonoBehaviour
     void SpawnBomb()
     {
         activeBomb = Instantiate(bomb, bombSpawnpoint.transform);
-        activeBomb.GetComponent<NetworkObject>().Spawn(); 
+        //activeBomb.GetComponent<NetworkObject>().Spawn(); 
     }
 
     IEnumerator StartBombSpawn()
