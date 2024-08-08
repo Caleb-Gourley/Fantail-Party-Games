@@ -79,7 +79,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: 4e14e0ba-51f2-4a5c-a822-e304bf36d48c
-  instanceId: b20ca1b1-b11c-44ab-b12c-ae0130f1a6d1
+  instanceId: dcce2bc6-d30a-402d-a792-b7183fd17ab5
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: fb25cac7-8f37-455d-ac01-3fa41a1be37d
@@ -93,7 +93,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510234940267814279}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 43f86b14a27b52f4f9298c33015b5c26, type: 3}
   m_Name: 
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1510234940267814279}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cb4a09355f9dc244bfbcd2ac9208ef7, type: 3}
   m_Name: 
@@ -149,8 +149,8 @@ GameObject:
   - component: {fileID: 5190187295599404505}
   - component: {fileID: 6906091415470433317}
   m_Layer: 0
-  m_Name: '[BuildingBlock] Cube (4)'
-  m_TagString: Untagged
+  m_Name: '[BuildingBlock] Wall'
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   blockId: e9b4b64f-1c7e-4dff-8f3c-ce409bdc3951
-  instanceId: 88663406-d031-4049-8cbd-4e935deb3a56
+  instanceId: 73b44e3d-a67d-4479-aac7-bd182d5c6175
   version: 1
   installationRoutineCheckpoint:
     _installationRoutineId: d5c83ff6-47e4-4c98-acdd-041d4686912f
@@ -221,7 +221,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 9d644bc915d2f2543b817f817f9ba1fa, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
