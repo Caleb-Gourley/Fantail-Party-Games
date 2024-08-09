@@ -82,7 +82,7 @@ public class DartSpawner : MonoBehaviour
         }
     }
 
-    private Vector3 CheckForBalloons(Vector3 velocityDirection)
+    private Vector3 CheckForBalloons(Vector3 velocityDirection, Vector3 throwVelocity)
     {
         Vector3 checkStart = transform.position;
         Vector3 checkEnd = transform.position + velocityDirection * checkLength;
@@ -112,7 +112,7 @@ public class DartSpawner : MonoBehaviour
                 Debug.Log(balloon.GetComponent<BalloonManager>().balloonTypeIndex);
                 Debug.DrawRay(transform.position, direction * 100f, Color.magenta, 1f);
                 closestAngle = alignmentAngle;
-                closestVector = (velocityDirection + direction * 2)/3;
+                closestVector = (throwVelocity + direction * 2)/3;
             }
         }
 
@@ -142,7 +142,7 @@ public class DartSpawner : MonoBehaviour
             {
                 
                 Debug.DrawRay(transform.position, ((velocity.magnitude * direction + velocity) / 2) * 100f, Color.green, 1f);
-                Vector3 closestVector = CheckForBalloons((velocity.magnitude * direction + velocity) / 2);
+                Vector3 closestVector = CheckForBalloons((velocity.magnitude * direction + velocity) / 2, velocity);
                 newVelocity = closestVector;
                 Debug.DrawRay(transform.position, newVelocity * 100f, Color.black, 1f);
             }
