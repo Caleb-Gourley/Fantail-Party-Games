@@ -35,17 +35,18 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    public void AddScore(int playerNumber, int points)
+    public void AddScore(int playerNumber, int points, string playerName)
     {
         if (playerScores.ContainsKey(playerNumber))
         {
             playerScores[playerNumber] += points;
             Debug.Log($"Player {playerNumber} scored {points} points!");
-            Debug.Log($"Player {playerNumber} has {playerScores[playerNumber]} points in total.");
+            Debug.Log($"Player {playerName} has {playerScores[playerNumber]} points in total.");
         }
         else
         {
             Debug.LogWarning($"Player {playerNumber} does not exist.");
+            Debug.LogWarning($"Player {playerName} does not exist.");
         }
     }
 

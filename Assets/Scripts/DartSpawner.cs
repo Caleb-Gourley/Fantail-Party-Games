@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using Unity.VisualScripting;
+using Meta.XR.MultiplayerBlocks.Shared;
 using UnityEngine;
 
 public class DartSpawner : MonoBehaviour
@@ -31,6 +32,7 @@ public class DartSpawner : MonoBehaviour
 
     public AutoMatchmakingNGO autoMatchmakingNGO;
     public bool hasGameStarted = false;
+    public PlayerIdentifier playerIdentifier;
 
     private void Start()
     {
@@ -38,6 +40,7 @@ public class DartSpawner : MonoBehaviour
         {
             StartCoroutine(Wait(autoMatchmakingNGO.maxRetries * autoMatchmakingNGO.retryInterval.y));
         }
+        playerIdentifier = GetComponentInParent<PlayerIdentifier>();
     }
 
 
@@ -150,9 +153,20 @@ public class DartSpawner : MonoBehaviour
         }
 
         GameObject newDart = Instantiate(throwableDart, transform.position, transform.rotation); 
+      
+        DartIdentifier dartIdentifier = newDart.GetComponent<DartIdentifier>();
+        if (playerIdentifier != null)
+        {
+            string playerName = playerIdentifier.PlayerName.Value.ToString();
+            Debug.Log("Dart is being thrown by " + playerName);
+            dartIdentifier.SetPlayerName(playerName);
+        }
+        else
+        {
+            Debug.LogWarning("PlayerIdentifier not found. Unable to set player name on dart.");
+        }
+
         newDart.tag = "Dart"; 
-        // Tag for collision detection and maybe later each camera rig could set a unique tag for each player darts by adding a dart 
-        // data script to the dart prefab and setting the player number here - Luke
         //newDart.GetComponent<NetworkObject>().Spawn();
         newDart.GetComponent<Rigidbody>().isKinematic = false;
         newDart.GetComponent<Rigidbody>().velocity = newVelocity * 3;
