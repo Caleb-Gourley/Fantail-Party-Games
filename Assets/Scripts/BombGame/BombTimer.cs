@@ -95,7 +95,7 @@ public class BombTimer : MonoBehaviour
 
         playerManager.GetComponent<BombPlayersManager>().SwapTempPlayerListToPlayerList();
 
-        Debug.Log("XXXXXXXXXXXXXXXXXXXXXXXXXX");
+        //Debug.Log("XXXXXXXXXXXXXXXXXXXXXXXXXX");
 
         //playersList = tempPlayersList;
         //Debug.Log("PLAYER COUNT: " + playersList.Count);
