@@ -12,11 +12,10 @@ public class RotateWallsRandomly : MonoBehaviour
     {
         foreach (Transform child in wallSpawner)
         {
-            Debug.Log("A wall has been rotated" + child.name);
+
+            Debug.Log("LOOOOOK HEEERRREEEEEE" + child.name);
             int randomRotationValue = Random.Range(0, 359);
             child.transform.rotation = Quaternion.Euler(0, randomRotationValue, 0);
-
-
         }
     }
 
