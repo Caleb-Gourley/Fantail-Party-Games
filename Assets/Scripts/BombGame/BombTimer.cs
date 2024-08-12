@@ -11,6 +11,8 @@ public class BombTimer : MonoBehaviour
     private float timerLength;
 
     GameObject playerManager;
+    private BombSpawner bombSpawner;
+    private NetworkManager networkManager;
     private List<GameObject> playersList;
     private List<GameObject> tempPlayersList;
 
@@ -20,6 +22,8 @@ public class BombTimer : MonoBehaviour
 
     public float forceMagnitude = 10f;
     private Rigidbody rb;
+
+    private bool canSpawnObject = false;
     //private LineRenderer lineRenderer;
 
     //public GameObject debugPlayer;
@@ -30,6 +34,10 @@ public class BombTimer : MonoBehaviour
         //lineRenderer = GetComponent<LineRenderer>();
 
         playerManager = GameObject.Find("PlayerManager");
+        bombSpawner = FindObjectOfType<BombSpawner>();
+        networkManager = FindObjectOfType<NetworkManager>();
+
+        networkManager.OnServerStarted += ServerStarted;
 
         playersList = playerManager.GetComponent<BombPlayersManager>().GetPlayersList();
         Debug.Log("PLAYERSSSSSS IN LIST: " + playersList.Count);
@@ -47,12 +55,18 @@ public class BombTimer : MonoBehaviour
         ///playersList = new List<GameObject>();
 
         ///addPlayersToList();
+        bombSpawner.bombs.Add(this.gameObject);
     }
 
     // Update is called once per frame
 
     void Update()
     {
+
+        if(!GetComponent<NetworkObject>().IsSpawned)
+        {
+            GetComponent<NetworkObject>().Spawn();
+        }
         
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -102,7 +116,8 @@ public class BombTimer : MonoBehaviour
 
 
         //GetComponent<NetworkObject>().Despawn();
-        Destroy(gameObject);
+        bombSpawner.bombs.Remove(this.gameObject);
+        GetComponent<NetworkObject>().Despawn();
 
         
 
@@ -114,6 +129,11 @@ public class BombTimer : MonoBehaviour
         //        Debug.Log("Player eliminated " + player.name);
         //    }
         //}
+    }
+
+    void ServerStarted()
+    {
+        canSpawnObject = true;
     }
 
     //void addPlayersToList()
