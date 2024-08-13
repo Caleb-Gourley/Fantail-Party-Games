@@ -4,88 +4,34 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    public static ScoreManager Instance { get; private set; }
-
-    public int playerCount = 1; // Default for testing purposes
-    private Dictionary<int, int> playerScores = new Dictionary<int, int>();
-
-    void Awake()
-    {
-        // Check to see if instance exists when a new player joins and does not create a new instance
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
+    private int score = 0;
 
     void Start()
     {
-
-        InitializeScores();
+        ResetScore();
     }
 
-    void InitializeScores()
+    public void AddScore(int points)
     {
-        // Initialize scores for each player
-        for (int i = 1; i <= playerCount; i++)
-        {
-            playerScores[i] = 0;
-        }
+        score += points;
+        Debug.Log($"Scored {points} points!");
+        Debug.Log($"Total score is now {score} points.");
     }
 
-    public void AddScore(int playerNumber, int points, string playerName)
+    public void SetScore(int newScore)
     {
-        if (playerScores.ContainsKey(playerNumber))
-        {
-            playerScores[playerNumber] += points;
-            Debug.Log($"Player {playerNumber} scored {points} points!");
-            Debug.Log($"Player {playerName} has {playerScores[playerNumber]} points in total.");
-        }
-        else
-        {
-            Debug.LogWarning($"Player {playerNumber} does not exist.");
-            Debug.LogWarning($"Player {playerName} does not exist.");
-        }
+        score = newScore;
+        Debug.Log($"Score set to {score} points.");
     }
 
-    public void SetScore(int playerNumber, int score)
+    public int GetScore()
     {
-        if (playerScores.ContainsKey(playerNumber))
-        {
-            playerScores[playerNumber] = score;
-        }
-        else
-        {
-            Debug.LogWarning($"Player {playerNumber} does not exist.");
-        }
+        return score;
     }
 
-    public int GetScore(int playerNumber)
+    public void ResetScore()
     {
-        if (playerScores.ContainsKey(playerNumber))
-        {
-            return playerScores[playerNumber];
-        }
-        else
-        {
-            Debug.LogWarning($"Player {playerNumber} does not exist.");
-            return 0;
-        }
-    }
-
-    public void ResetScores()
-    {
-        foreach (int playerNumber in playerScores.Keys)
-        {
-            playerScores[playerNumber] = 0;
-        }
-    }
-
-    public void SetPlayerCount(int count)
-    {
-        playerCount = count;
-        InitializeScores();
+        score = 0;
+        Debug.Log("Score reset to 0.");
     }
 }
