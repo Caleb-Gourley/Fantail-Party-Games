@@ -73,8 +73,13 @@ public class BalloonManager : MonoBehaviour
         FaceUp();
         if (test)
         {
-            --balloonSpawner.balloonsSpawned;
-            Destroy(gameObject);
+            if (balloonTypeIndex == 0) // Bomb Balloon
+            {
+                Explode();
+            }
+
+            PopBalloon();
+
         }
     }
 
@@ -96,8 +101,6 @@ public class BalloonManager : MonoBehaviour
         GetComponent<Rigidbody>().AddForce(launchForce, ForceMode.Impulse);
         while (elapsedTime < timeToGrow)
         {
-            
-           // GetComponent<Rigidbody>().AddForce(launchForce, ForceMode.Impulse);
             transform.localScale = Vector3.Lerp(Vector3.zero, finalSize, elapsedTime / timeToGrow);
             elapsedTime += Time.deltaTime;
             yield return null; 
@@ -110,23 +113,50 @@ public class BalloonManager : MonoBehaviour
     {
         if (other.CompareTag("Dart"))
         {
-            if (popEffect != null) // Plays Benjis pop effect when balloon is popped 
+            if (balloonTypeIndex == 0) // Bomb Balloon
             {
-                popEffect.transform.SetParent(null); 
-                popEffect.Play();
-                Destroy(popEffect.gameObject, popEffect.main.duration);
+                Explode();
             }
-            string playerDart = "Unknown";
-            
-            DartIdentifier dartIdentifier = other.GetComponent<DartIdentifier>();
-            playerDart = dartIdentifier.playerDartName;
+            else
+            {
+                //Score stuff
+                string playerDart = "Unknown";
 
-            ScoreManager.Instance.AddScore(1, 100, playerDart);
+                DartIdentifier dartIdentifier = other.GetComponent<DartIdentifier>();
+                playerDart = dartIdentifier.playerDartName;
 
-            //--findSpawnPositions.ammountSpawned;
-            --balloonSpawner.balloonsSpawned;
-            Destroy(gameObject);
+                ScoreManager.Instance.AddScore(1, 100, playerDart);
+            }
 
+            PopBalloon();
+
+        }
+    }
+
+    public void PopBalloon()
+    {
+        if (popEffect != null) // Plays Benjis pop effect when balloon is popped 
+        {
+            popEffect.transform.SetParent(null);
+            popEffect.Play();
+            Destroy(popEffect.gameObject, popEffect.main.duration);
+        }
+
+        --balloonSpawner.balloonsSpawned;
+        Destroy(gameObject);
+    }
+
+    void Explode()
+    {
+
+        Collider[] surroundingObjects = Physics.OverlapSphere(transform.position, 1.5f);
+        foreach (var hitObjects in surroundingObjects)
+        {
+            BalloonManager balloon = hitObjects.GetComponent<BalloonManager>();
+            if (balloon != null && balloon != this)
+            {
+                balloon.PopBalloon();
+            }
         }
     }
 }
