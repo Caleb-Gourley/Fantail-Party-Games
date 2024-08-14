@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.VisualScripting;
 
 public class RoundManager : MonoBehaviour
 {
     [Header("Game Start")]
     // public GameObject startButton;
-    public BalloonSpawn balloonSpawn;
+    public BalloonSpawn balloonSpawn;        
+    public float timer = 60f; 
 
     [Header("Game Over")]
     public Canvas gameOverCanvas;
@@ -50,6 +52,7 @@ public class RoundManager : MonoBehaviour
         // Start a round couroutine and start spawning balloons if all players are ready 
         // StartCoroutine(RoundTimer());
         // balloonSpawn.StartSpawning(); 
+        StartCoroutine(RoundTimer());
 
     }
 
@@ -87,5 +90,22 @@ public class RoundManager : MonoBehaviour
         }
 
         canvasGroup.alpha = 1f;
+    }
+    private IEnumerator RoundTimer()
+    {
+
+
+        while (timer > 0f)
+        {
+            yield return new WaitForSeconds(1f); // Wait for 1 second
+
+            timer -= 1f; // Decrease the time remaining by 1 second
+
+
+            Debug.Log("Time Remaining: " + timer);
+        }
+
+        // Round is over, perform any necessary actions
+        GameOver();
     }
 }
