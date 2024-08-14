@@ -45,7 +45,7 @@ public class BombPlayersManager : MonoBehaviour
 
         if (playersList.Count <= 0)
         {
-            Debug.Log("ALL Players Eliminated...RESTARTING");
+            // Debug.Log("ALL Players Eliminated...RESTARTING");
             addPlayersToList();
         }
     }
@@ -62,7 +62,7 @@ public class BombPlayersManager : MonoBehaviour
         }
 
 
-        Debug.Log("PLAYERZZZZZZ LIST: " + playersList.Count);
+        // Debug.Log("PLAYERZZZZZZ LIST: " + playersList.Count);
 
         ///Debugging Purposes:
         //foreach(GameObject player in playersList)
@@ -74,7 +74,7 @@ public class BombPlayersManager : MonoBehaviour
     public GameObject RandomSelectPlayerFromList()
     {
         int randomIndex = Random.Range(0, playersList.Count);
-        Debug.Log("plyaer chosen index: " + randomIndex);
+        // Debug.Log("plyaer chosen index: " + randomIndex);
         return playersList[randomIndex];
     }
 

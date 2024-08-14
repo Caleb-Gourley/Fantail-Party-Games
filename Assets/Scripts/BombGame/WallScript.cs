@@ -11,7 +11,7 @@ public class WallScript : MonoBehaviour
     void Start()
     {
         timerLength = Random.Range(minTime, maxTime);
-        Debug.Log("Wall Despawn Timer: " + timerLength + "seconds");
+        // Debug.Log("Wall Despawn Timer: " + timerLength + "seconds");
 
         Destroy(gameObject.transform.parent.gameObject, timerLength);
     }

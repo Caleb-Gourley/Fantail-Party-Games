@@ -27,7 +27,7 @@ public class WallSpawner : MonoBehaviour
             timerLength = 100f;
             Instantiate(BuildingBlockFindWallLocationSpawner);
             timerLength = Random.Range(minTime, maxTime);
-            Debug.Log("WALL TIMERRRRRRRRRRRRRRRRR: " + timerLength);
+            // Debug.Log("WALL TIMERRRRRRRRRRRRRRRRR: " + timerLength);
         }
     }
 }
