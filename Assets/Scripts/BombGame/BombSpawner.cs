@@ -5,23 +5,24 @@ using UnityEngine;
 
 public class BombSpawner : MonoBehaviour
 {
-    public GameObject bomb;
-    public GameObject bombSpawnpoint;
     public float timeToWaitBeforeSpawn;
-    private GameObject activeBomb;
+    public FindSpawnPositions findSpawnPositions;
+    private NetworkManager networkManager;
 
-    private bool spawningBomb = false;
-    
+    public List<GameObject> bombs;
+    private bool spawningBomb = true;
+
     // Start is called before the first frame update
     void Start()
     {
-        SpawnBomb();
+        networkManager = FindAnyObjectByType<NetworkManager>();
+        networkManager.OnServerStarted += SpawnedFirstBomb;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        if(activeBomb == null && !spawningBomb)
+        if(!spawningBomb && bombs.Count == 0)
         {
             StartCoroutine(StartBombSpawn());
         }
@@ -29,8 +30,7 @@ public class BombSpawner : MonoBehaviour
 
     void SpawnBomb()
     {
-        activeBomb = Instantiate(bomb, bombSpawnpoint.transform);
-        //activeBomb.GetComponent<NetworkObject>().Spawn(); 
+        findSpawnPositions.StartSpawn();
     }
 
     IEnumerator StartBombSpawn()
@@ -40,4 +40,10 @@ public class BombSpawner : MonoBehaviour
         SpawnBomb();
         spawningBomb = false;
     }
+
+    private void SpawnedFirstBomb()
+    {
+        spawningBomb = false;
+    }
+
 }
