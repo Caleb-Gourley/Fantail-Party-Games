@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 6636083264779786634}
   - component: {fileID: 3560521547920867011}
   - component: {fileID: 8475123894368899249}
+  - component: {fileID: 7236326239454306442}
   m_Layer: 0
   m_Name: Network Throwable
   m_TagString: Untagged
@@ -4203,6 +4204,19 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!114 &7236326239454306442
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5808353087977629789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c799540c96da35d44b2c1d161a6959ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerDartName: 
 --- !u!1 &6168947185966658613
 GameObject:
   m_ObjectHideFlags: 0
