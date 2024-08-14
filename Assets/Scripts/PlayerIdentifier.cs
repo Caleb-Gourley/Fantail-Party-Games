@@ -15,7 +15,7 @@ namespace Meta.XR.MultiplayerBlocks.Shared
         {
             if (IsOwner)
             {
-                SetPlayerNameServerRpc(PlayerNameTagSpawnerNGO.Instance.GetLocalPlayerName());
+            //    SetPlayerNameServerRpc(PlayerNameTagSpawnerNGO.Instance.GetLocalPlayerName());
                 Debug.Log($"Player name set to {PlayerName.Value}");
             }
 

@@ -7,10 +7,12 @@ using UnityEngine;
 public class BalloonManager : MonoBehaviour
 {
     public ParticleSystem popEffect;
+    public ParticleSystem bombEffect;
     public GameObject[] balloonModels;
 
     [HideInInspector]
     public BalloonSpawn balloonSpawner;
+    public ScoreManager ScoreManager;
 
     public int balloonTypeIndex;
     public int balloonColourIndex;
@@ -28,6 +30,8 @@ public class BalloonManager : MonoBehaviour
     {
         transform.parent = null;
         balloonSpawner = FindObjectOfType<BalloonSpawn>();
+        ScoreManager = FindObjectOfType<ScoreManager>();
+
         //Gets a random balloon type and sets a random colour if it's not a bomb
         float randomIndex = UnityEngine.Random.Range(0f, 1f);   //5%  
         if (randomIndex <= 0.05f)
@@ -73,8 +77,10 @@ public class BalloonManager : MonoBehaviour
         FaceUp();
         if (test)
         {
-            --balloonSpawner.balloonsSpawned;
-            Destroy(gameObject);
+            if (balloonTypeIndex == 0) // Bomb Balloon
+            {
+                Explode();
+            }
         }
     }
 
@@ -96,8 +102,6 @@ public class BalloonManager : MonoBehaviour
         GetComponent<Rigidbody>().AddForce(launchForce, ForceMode.Impulse);
         while (elapsedTime < timeToGrow)
         {
-            
-           // GetComponent<Rigidbody>().AddForce(launchForce, ForceMode.Impulse);
             transform.localScale = Vector3.Lerp(Vector3.zero, finalSize, elapsedTime / timeToGrow);
             elapsedTime += Time.deltaTime;
             yield return null; 
@@ -110,24 +114,67 @@ public class BalloonManager : MonoBehaviour
     {
         if (other.CompareTag("Dart"))
         {
-            if (popEffect != null) // Plays Benjis pop effect when balloon is popped 
+            if (balloonTypeIndex == 0) // Bomb Balloon
             {
-                popEffect.transform.SetParent(null); 
+                Explode();
+            }
+            else
+            {
+                PopBalloon();
+            }
+        }
+    }
+
+    public void PopBalloon()
+    {
+        if (balloonTypeIndex == 0) // Bomb Balloon
+        {
+            if (bombEffect != null) // Plays bomb effect when balloon is popped
+            {
+                bombEffect.transform.SetParent(null);
+                bombEffect.Play();
+                Destroy(bombEffect.gameObject, bombEffect.main.duration);
+            }
+        }
+        else
+        {
+            if (popEffect != null) // Plays confetti effect when balloon is popped 
+            {
+                popEffect.transform.SetParent(null);
                 popEffect.Play();
                 Destroy(popEffect.gameObject, popEffect.main.duration);
             }
-            string playerDart = "Unknown";
-            
-            DartIdentifier dartIdentifier = other.GetComponent<DartIdentifier>();
-            playerDart = dartIdentifier.playerDartName;
-
-            ScoreManager.Instance.AddScore(1, 100, playerDart);
-
-            //--findSpawnPositions.ammountSpawned;
-            --balloonSpawner.balloonsSpawned;
-            Destroy(gameObject);
-
         }
+
+        int score = 0;
+        switch (balloonTypeIndex)
+        {
+            case 1: score = 100; break;
+            case 2: score = 200; break;
+            case 3: score = 300; break;
+            case 4: score = 400; break;
+            case 5: score = 500; break;
+            case 0: score = 0; break; // Bomb Balloon could maybe score negative points or something
+        }
+        ScoreManager.AddScore(score);
+
+        --balloonSpawner.balloonsSpawned;
+        Destroy(gameObject);
+    }
+
+    void Explode()
+    {
+
+        Collider[] surroundingObjects = Physics.OverlapSphere(transform.position, 1.5f);
+        foreach (var hitObjects in surroundingObjects)
+        {
+            BalloonManager balloon = hitObjects.GetComponent<BalloonManager>();
+            if (balloon != null && balloon != this)
+            {
+                balloon.PopBalloon();
+            }
+        }
+        PopBalloon();
     }
 }
 

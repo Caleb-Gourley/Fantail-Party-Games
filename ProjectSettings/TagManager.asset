@@ -7,6 +7,7 @@ TagManager:
   - Dart
   - Balloon
   - Wall
+  - Hand
   layers:
   - Default
   - TransparentFX

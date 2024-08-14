@@ -11,6 +11,8 @@ public class BombTimer : MonoBehaviour
     private float timerLength;
 
     GameObject playerManager;
+    private BombSpawner bombSpawner;
+    private NetworkManager networkManager;
     private List<GameObject> playersList;
     private List<GameObject> tempPlayersList;
 
@@ -20,6 +22,7 @@ public class BombTimer : MonoBehaviour
 
     public float forceMagnitude = 10f;
     private Rigidbody rb;
+
     //private LineRenderer lineRenderer;
 
     //public GameObject debugPlayer;
@@ -30,9 +33,11 @@ public class BombTimer : MonoBehaviour
         //lineRenderer = GetComponent<LineRenderer>();
 
         playerManager = GameObject.Find("PlayerManager");
+        bombSpawner = FindObjectOfType<BombSpawner>();
+        networkManager = FindObjectOfType<NetworkManager>();
 
         playersList = playerManager.GetComponent<BombPlayersManager>().GetPlayersList();
-        Debug.Log("PLAYERSSSSSS IN LIST: " + playersList.Count);
+        // Debug.Log("PLAYERSSSSSS IN LIST: " + playersList.Count);
 
         tempPlayersList = new List<GameObject>();
 
@@ -40,19 +45,25 @@ public class BombTimer : MonoBehaviour
         rb.isKinematic = false;
 
         timerLength = Random.Range(minTime, maxTime);
-        Debug.Log(timerLength);
+        // Debug.Log(timerLength);
 
         chosenPlayerTarget = playerManager.GetComponent<BombPlayersManager>().RandomSelectPlayerFromList();
 
         ///playersList = new List<GameObject>();
 
         ///addPlayersToList();
+        bombSpawner.bombs.Add(this.gameObject);
     }
 
     // Update is called once per frame
 
     void Update()
     {
+
+        if(!GetComponent<NetworkObject>().IsSpawned)
+        {
+            GetComponent<NetworkObject>().Spawn();
+        }
         
         if (Input.GetKeyDown(KeyCode.E))
         {
@@ -64,7 +75,7 @@ public class BombTimer : MonoBehaviour
             KickToPlayer();
         }
 
-        transform.position = Vector3.MoveTowards(transform.position, chosenPlayerTarget.transform.position, bombSpeed * Time.deltaTime);
+        // transform.position = Vector3.MoveTowards(transform.position, chosenPlayerTarget.transform.position, bombSpeed * Time.deltaTime);
 
         //if (playersList.Count <= 0)
         //{
@@ -75,34 +86,34 @@ public class BombTimer : MonoBehaviour
         timerLength -= Time.deltaTime;
         if(timerLength <= 0)
         {
-            Debug.Log("Exploded");
             timerLength = 5f;
-            Debug.Log("BOMB TIMER LENGTH: " + timerLength);
+            // Debug.Log("BOMB TIMER LENGTH: " + timerLength);
             ResetBomb();
         }
     }
 
     void ResetBomb()
     {
-        ShootLinecast();
+        // ShootLinecast();
 
         timerLength = Random.Range(minTime, maxTime);
-        Debug.Log("BOMB TIMER LENGTH: " + timerLength);
+        // Debug.Log("BOMB TIMER LENGTH: " + timerLength);
 
-        Debug.Log(tempPlayersList.Count);
+        // Debug.Log(tempPlayersList.Count);
 
         playerManager.GetComponent<BombPlayersManager>().SetTempPlayersList(tempPlayersList);
 
         playerManager.GetComponent<BombPlayersManager>().SwapTempPlayerListToPlayerList();
 
-        Debug.Log("XXXXXXXXXXXXXXXXXXXXXXXXXX");
+        //Debug.Log("XXXXXXXXXXXXXXXXXXXXXXXXXX");
 
         //playersList = tempPlayersList;
         //Debug.Log("PLAYER COUNT: " + playersList.Count);
 
 
         //GetComponent<NetworkObject>().Despawn();
-        Destroy(gameObject);
+        bombSpawner.bombs.Remove(this.gameObject);
+        GetComponent<NetworkObject>().Despawn();
 
         
 
@@ -115,7 +126,6 @@ public class BombTimer : MonoBehaviour
         //    }
         //}
     }
-
     //void addPlayersToList()
     //{
     //    GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
@@ -159,9 +169,9 @@ public class BombTimer : MonoBehaviour
 
             if (hit.collider.tag == "Wall")
             {
-                Debug.Log("LINECAST HIT  WALL: " + hit.collider.name);
+                // Debug.Log("LINECAST HIT  WALL: " + hit.collider.name);
 
-                Debug.Log("ADD TO TEMP LIST");
+                // Debug.Log("ADD TO TEMP LIST");
                 tempPlayersList.Add(player);
             }
             //else
