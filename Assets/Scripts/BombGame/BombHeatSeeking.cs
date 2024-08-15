@@ -63,13 +63,28 @@ public class BombHeatSeeking : MonoBehaviour
     {
         if(other.gameObject.name.Contains("Rigidbody"))
         {
+            StopCoroutine(WaitAndFindClosestPlayer());
             closestPlayer = null;
             StartCoroutine(WaitAndFindClosestPlayer());
             
-
-
             // transform.position = Vector3.MoveTowards(transform.position, closestPlayer.transform.position, Vector3.Magnitude(rb.velocity));
         }
+    }
+
+    public void FindNewPlayer()
+    {
+        GameObject closestPlayer = null;
+        float lowestAngle = 180;
+        foreach (GameObject player in playersList)
+        {
+            float angle = Vector3.Angle(rb.velocity, player.transform.position);
+            if (angle < lowestAngle && Vector3.Distance(transform.position, player.transform.position) <= 1)
+            {
+                closestPlayer = player;
+                lowestAngle = angle;
+            }
+        }
+        this.closestPlayer = closestPlayer;
     }
 
     IEnumerator WaitAndFindClosestPlayer()
@@ -87,6 +102,6 @@ public class BombHeatSeeking : MonoBehaviour
                 lowestAngle = angle;
             }
         }
-        this.closestPlayer = closestPlayer;;
+        this.closestPlayer = closestPlayer;
     }
 }
