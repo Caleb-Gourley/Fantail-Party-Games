@@ -26,6 +26,7 @@ public class BombHeatSeeking : MonoBehaviour
         playerManager = GameObject.Find("PlayerManager");
         playersList = playerManager.GetComponent<BombPlayersManager>().GetPlayersList();
         rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
 
         closestPlayer = playersList[UnityEngine.Random.Range(0, playersList.Count)];
     }
