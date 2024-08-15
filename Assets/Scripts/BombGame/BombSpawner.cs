@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class BombSpawner : MonoBehaviour
+public class BombSpawner : NetworkBehaviour
 {
     public float timeToWaitBeforeSpawn;
     public FindSpawnPositions findSpawnPositions;
@@ -22,8 +23,12 @@ public class BombSpawner : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        if (!networkManager.IsServer)
+            return;
+        
         if(!spawningBomb && bombs.Count == 0)
         {
+            Debug.LogError("Spawning Bomb");
             StartCoroutine(StartBombSpawn());
         }
     }

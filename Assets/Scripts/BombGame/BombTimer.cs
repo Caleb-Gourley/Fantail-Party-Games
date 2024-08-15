@@ -60,7 +60,7 @@ public class BombTimer : MonoBehaviour
     void Update()
     {
 
-        if(!GetComponent<NetworkObject>().IsSpawned)
+        if(networkManager.IsServer && !GetComponent<NetworkObject>().IsSpawned)
         {
             GetComponent<NetworkObject>().Spawn();
         }
