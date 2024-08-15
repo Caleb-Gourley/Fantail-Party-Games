@@ -8,6 +8,7 @@ TagManager:
   - Balloon
   - Wall
   - Hand
+  - Bomb
   layers:
   - Default
   - TransparentFX

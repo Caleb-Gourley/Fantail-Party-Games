@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class BombPlayersManager : MonoBehaviour
@@ -14,7 +15,6 @@ public class BombPlayersManager : MonoBehaviour
         playersList = new List<GameObject>();
 
         addPlayersToList();
-
     }
 
     // Update is called once per frame
