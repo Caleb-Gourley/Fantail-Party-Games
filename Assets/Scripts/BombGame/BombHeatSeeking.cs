@@ -45,7 +45,7 @@ public class BombHeatSeeking : MonoBehaviour
 
     private void StopBeforePlayer()
     {
-        if(Vector3.Distance(transform.position, closestPlayer.transform.position) < .3f)
+        if(Vector3.Distance(transform.position, closestPlayer.transform.position) < .7f)
         {
             rb.velocity = Vector3.zero;
         }
@@ -73,18 +73,19 @@ public class BombHeatSeeking : MonoBehaviour
 
     IEnumerator WaitAndFindClosestPlayer()
     {
+        
+        yield return new WaitForSeconds(1.5f);
         GameObject closestPlayer = null;
         float lowestAngle = 180;
-        foreach(GameObject player in playersList)
+        foreach (GameObject player in playersList)
         {
             float angle = Vector3.Angle(rb.velocity, player.transform.position);
-            if(angle < lowestAngle && Vector3.Distance(transform.position, player.transform.position) <= 1)
+            if (angle < lowestAngle && Vector3.Distance(transform.position, player.transform.position) <= 1)
             {
                 closestPlayer = player;
                 lowestAngle = angle;
             }
         }
-        yield return new WaitForSeconds(3);
         this.closestPlayer = closestPlayer;;
     }
 }

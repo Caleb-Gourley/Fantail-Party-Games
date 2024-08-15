@@ -1490,7 +1490,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &72888226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6357,7 +6357,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &429076415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18649,7 +18649,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1132981501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26626,6 +26626,117 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &1593557700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1593557705}
+  - component: {fileID: 1593557704}
+  - component: {fileID: 1593557703}
+  - component: {fileID: 1593557702}
+  - component: {fileID: 1593557701}
+  m_Layer: 0
+  m_Name: '[BuildingBlock] Player Name Tag'
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1593557701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593557700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae9334420786731409b2bf965732d6df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNameTagPrefab: {fileID: 6612306959276078633, guid: e6e1b232a4f038c4684c307eb3088311, type: 3}
+--- !u!114 &1593557702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593557700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a03dd100b53d92448019d24cfbcf0c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  namePrefix:
+  - Happy
+  - Running
+  - Laughing
+  - Smiling
+  namePostfix:
+  - Cat
+  - Dog
+  - Hippo
+  - Bird
+--- !u!114 &1593557703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593557700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1181010448
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+--- !u!114 &1593557704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593557700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b023183069df224080314a560e6e1ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blockId: 97a7e1ae-ac65-4ee6-9167-10b3b94782f6
+  instanceId: 39b0b208-9592-48c3-b4e3-ad373fc0298f
+  version: 1
+  installationRoutineCheckpoint:
+    _installationRoutineId: 5fa4d807-dad5-45f9-8d2a-fd910366fd35
+    _installationVariants:
+    - _memberName: installAutoMatchmaking
+      _value: '{}'
+--- !u!4 &1593557705
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1593557700}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1594246230
 GameObject:
   m_ObjectHideFlags: 0
@@ -30333,6 +30444,7 @@ GameObject:
   - component: {fileID: 1852965162}
   - component: {fileID: 1852965161}
   - component: {fileID: 1852965160}
+  - component: {fileID: 1852965164}
   - component: {fileID: 1852965163}
   m_Layer: 0
   m_Name: '[BuildingBlock] Find Spawn Positions Bomb'
@@ -30413,6 +30525,27 @@ MonoBehaviour:
   timeToWaitBeforeSpawn: 0
   findSpawnPositions: {fileID: 1852965160}
   bombs: []
+--- !u!114 &1852965164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1852965159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 2025563297
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &1853620902
 GameObject:
   m_ObjectHideFlags: 0
@@ -34231,6 +34364,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2055071245}
   - component: {fileID: 2055071246}
+  - component: {fileID: 2055071247}
   m_Layer: 0
   m_Name: PlayerManager
   m_TagString: Untagged
@@ -34265,6 +34399,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23a6e62536852774ba9d64226bfcecd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverStarted: 0
+--- !u!114 &2055071247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2055071244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 978544654
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1 &2058025293
 GameObject:
   m_ObjectHideFlags: 0
@@ -34524,7 +34680,7 @@ GameObject:
   - component: {fileID: 2069968468}
   m_Layer: 0
   m_Name: TrackingSpace
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -35214,3 +35370,4 @@ SceneRoots:
   - {fileID: 1132981507}
   - {fileID: 429076424}
   - {fileID: 72888235}
+  - {fileID: 1593557705}

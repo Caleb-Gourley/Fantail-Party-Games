@@ -1,18 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
 public class BombPlayersManager : MonoBehaviour
 {
     private List<GameObject> playersList;
     private List<GameObject> tempPlayersList;
+    private NetworkManager networkManager;
+    public bool serverStarted = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
         playersList = new List<GameObject>();
+        networkManager = FindAnyObjectByType<NetworkManager>();
 
+        networkManager.OnServerStarted += OnServerStarted;
         addPlayersToList();
 
     }
@@ -88,5 +93,10 @@ public class BombPlayersManager : MonoBehaviour
         {
             return false;
         }
+    }
+
+    void OnServerStarted()
+    {
+        serverStarted = true;
     }
 }
