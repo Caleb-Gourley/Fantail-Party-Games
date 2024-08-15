@@ -22,7 +22,7 @@ public class BalloonSpawn : MonoBehaviour
     {
         if (!hasGameStarted && autoMatchmakingNGO != null)
         {
-            StartCoroutine(Wait(autoMatchmakingNGO.maxRetries * autoMatchmakingNGO.retryInterval.y));
+           // StartCoroutine(Wait(autoMatchmakingNGO.maxRetries * autoMatchmakingNGO.retryInterval.y));
         }
     }
 

@@ -114,6 +114,7 @@ public class BalloonManager : MonoBehaviour
     {
         if (other.CompareTag("Dart"))
         {
+            Debug.Log("hit");
             if (balloonTypeIndex == 0) // Bomb Balloon
             {
                 Explode();

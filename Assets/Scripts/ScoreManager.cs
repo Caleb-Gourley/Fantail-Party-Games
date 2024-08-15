@@ -28,13 +28,13 @@ public class ScoreManager : MonoBehaviour
     {
         score += points;
         //Debug.Log($"Scored {points} points!");
-        Debug.Log($"{gameObject.name} Total score is now {score} points.");
+        //Debug.Log($"{gameObject.name} Total score is now {score} points.");
     }
 
     public void SetScore(int newScore)
     {
         score = newScore;
-        Debug.Log($"Score set to {score} points.");
+       // Debug.Log($"Score set to {score} points.");
     }
 
     public int GetScore()
