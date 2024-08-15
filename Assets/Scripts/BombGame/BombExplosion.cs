@@ -5,7 +5,7 @@ using UnityEngine;
 public class BombExplosion : MonoBehaviour
 {
     private BombPlayersManager bombPlayersManager;
-    private List<GameObject> playerList;
+    public List<GameObject> playerList;
     private List<GameObject> playerNotHitByBomb = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
@@ -39,6 +39,10 @@ public class BombExplosion : MonoBehaviour
             if (hit.collider.tag == "Wall")
             {
                 playerNotHitByBomb.Add(player);
+            }
+            else
+            {
+                player.GetComponent<ScoreManager>().StopScoring();
             }
         }
     }
