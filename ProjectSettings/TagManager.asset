@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Hand
   - Bomb
+  - BalloonSpawnLocation
   layers:
   - Default
   - TransparentFX
