@@ -1,5 +1,6 @@
 using Meta.WitAi.Attributes;
 using Meta.XR.MultiplayerBlocks.NGO;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,21 +9,25 @@ using UnityEngine;
 
 public class BalloonSpawn : MonoBehaviour
 {
+    public Transform balloonSpawnLocation;
     public AutoMatchmakingNGO autoMatchmakingNGO;
     public FindSpawnPositions spawnPositions;
     public bool hasGameStarted = true;  // For testing purposes game starts immediately
-    public int maxAmount = 30;
+    private int maxAmount;
     public float spawnRate = 0.5f;
-    [HideInInspector]
+    //[HideInInspector]
     public int balloonsSpawned = 0;
+    public BalloonManager[] balloonManagers;
 
     private float lastTime;
 
     private void Start()
     {
+        balloonManagers = GameObject.FindObjectsOfType<BalloonManager>();
+        maxAmount = balloonManagers.Length;
         if (!hasGameStarted && autoMatchmakingNGO != null)
         {
-            StartCoroutine(Wait(autoMatchmakingNGO.maxRetries * autoMatchmakingNGO.retryInterval.y));
+           // StartCoroutine(Wait(autoMatchmakingNGO.maxRetries * autoMatchmakingNGO.retryInterval.y));
         }
     }
 
@@ -36,8 +41,18 @@ public class BalloonSpawn : MonoBehaviour
                 lastTime = 0;
                 if (balloonsSpawned < maxAmount)
                 {
+                    Debug.Log("spawned");
                     spawnPositions.StartSpawn();
-                    ++balloonsSpawned;
+                    foreach (BalloonManager balloonManager in balloonManagers)
+                    {
+                        if (!balloonManager.Spawned)
+                        {
+                            balloonManager.transform.position = balloonSpawnLocation.position;
+                            balloonManager.Inflate();
+                            break;
+                        }
+                    }
+
                 }
             }
         }
