@@ -5,23 +5,36 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
     private int score = 0;
+    private int highScore = 0;
+    private bool isAlive = true;
 
     void Start()
     {
         ResetScore();
+        StartCoroutine(UpdateScoreEverySecond());
+    }
+
+    private IEnumerator UpdateScoreEverySecond()
+    {
+        while (isAlive)
+        {
+            yield return new WaitForSeconds(1);
+
+            AddScore(1);
+        }
     }
 
     public void AddScore(int points)
     {
         score += points;
-        Debug.Log($"Scored {points} points!");
-        Debug.Log($"Total score is now {score} points.");
+        //Debug.Log($"Scored {points} points!");
+        Debug.LogWarning($"{gameObject.name} Total score is now {score} points.");
     }
 
     public void SetScore(int newScore)
     {
         score = newScore;
-        Debug.Log($"Score set to {score} points.");
+       // Debug.Log($"Score set to {score} points.");
     }
 
     public int GetScore()
@@ -33,5 +46,19 @@ public class ScoreManager : MonoBehaviour
     {
         score = 0;
         Debug.Log("Score reset to 0.");
+    }
+
+    public void StopScoring()
+    {
+        isAlive = false;
+        Debug.LogWarning($"{gameObject.name} has stopped earning points.");
+    }
+
+    public void SetHighScore()
+    {
+        if (highScore < score)
+        {
+            highScore = score;
+        }
     }
 }

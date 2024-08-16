@@ -8,6 +8,8 @@ TagManager:
   - Balloon
   - Wall
   - Hand
+  - Bomb
+  - BalloonSpawnLocation
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - UI
   - Dart
   - Hand
-  - 
+  - Balloon
   - 
   - 
   - 

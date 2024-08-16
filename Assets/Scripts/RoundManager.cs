@@ -8,8 +8,10 @@ public class RoundManager : MonoBehaviour
 {
     [Header("Game Start")]
     // public GameObject startButton;
-    public BalloonSpawn balloonSpawn;        
+    public BalloonSpawn balloonSpawn; 
+    public PopToStart popToStart;
     public float timer = 60f; 
+    public float currentTimer = 60f; 
 
     [Header("Game Over")]
     public Canvas gameOverCanvas;
@@ -25,6 +27,7 @@ public class RoundManager : MonoBehaviour
     private int highScoreValue = 0;
     private CanvasGroup canvasGroup;
 
+
     void Start()
     {
         // Get components
@@ -35,7 +38,7 @@ public class RoundManager : MonoBehaviour
         {
             gameOverCanvas.gameObject.SetActive(false);
         }
-        StartGame();
+       // StartGame();
     }
 
     void Update()
@@ -48,6 +51,8 @@ public class RoundManager : MonoBehaviour
 
     public void StartGame() // Called when the game is started
     {
+        currentTimer = timer;
+        canvasGroup.alpha = 0;
         scoreManager.ResetScore();
         // Start a round couroutine and start spawning balloons if all players are ready 
         // StartCoroutine(RoundTimer());
@@ -72,10 +77,14 @@ public class RoundManager : MonoBehaviour
         {
             highScore.text = highScoreValue.ToString();
         }
+        BalloonManager[] balloonManagers = FindObjectsOfType<BalloonManager>();
 
-        // Stop spawning balloons and remove all excess balloons
-        // balloonSpawn.StopSpawning();
-        // Add an option to restart the game for all players over the network
+        foreach (BalloonManager balloonManager in balloonManagers)
+        {
+            balloonSpawn.hasGameStarted = false;
+           balloonManager.PopBalloon();
+        }
+        popToStart.gameObject.SetActive(true);
     }
     private IEnumerator FadeInCanvas()
     {
@@ -91,18 +100,18 @@ public class RoundManager : MonoBehaviour
 
         canvasGroup.alpha = 1f;
     }
-    private IEnumerator RoundTimer()
+    public IEnumerator RoundTimer()
     {
 
 
-        while (timer > 0f)
+        while (currentTimer > 0f)
         {
             yield return new WaitForSeconds(1f); // Wait for 1 second
 
-            timer -= 1f; // Decrease the time remaining by 1 second
+            currentTimer -= 1f; // Decrease the time remaining by 1 second
 
 
-            Debug.Log("Time Remaining: " + timer);
+            //Debug.Log("Time Remaining: " + currentTimer);
         }
 
         // Round is over, perform any necessary actions
