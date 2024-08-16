@@ -45,6 +45,7 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
     {
         yield return new WaitForSeconds(timeBeforeRespawn);
         SpawnInstance();
+        prefabInstance.GetComponent<BombHeatSeeking>().FindNewPlayer();
         yield break;
     }
 
