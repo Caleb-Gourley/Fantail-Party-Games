@@ -28,7 +28,7 @@ public class ScoreManager : MonoBehaviour
     {
         score += points;
         //Debug.Log($"Scored {points} points!");
-        //Debug.Log($"{gameObject.name} Total score is now {score} points.");
+        Debug.LogWarning($"{gameObject.name} Total score is now {score} points.");
     }
 
     public void SetScore(int newScore)
@@ -51,7 +51,7 @@ public class ScoreManager : MonoBehaviour
     public void StopScoring()
     {
         isAlive = false;
-        Debug.Log($"{gameObject.name} has stopped earning points.");
+        Debug.LogWarning($"{gameObject.name} has stopped earning points.");
     }
 
     public void SetHighScore()

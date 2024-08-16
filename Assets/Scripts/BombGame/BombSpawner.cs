@@ -25,6 +25,7 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
 
     private void Start()
     {
+
         prefabInstance = Instantiate(prefabToSpawn);
         spawnedNetworkObject = prefabInstance.GetComponent<NetworkObject>();
         prefabInstance.SetActive(false);
