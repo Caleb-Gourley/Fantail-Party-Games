@@ -26,23 +26,46 @@ public class BalloonManager : MonoBehaviour
     private float rotationSpeed = 6f; 
     private Quaternion targetRotation;
 
+    [HideInInspector]
+    public bool Spawned;
+
     void Start()
     {
+        GetComponent<Rigidbody>().isKinematic = true;
+        transform.position = new Vector3(-1000, -1000, -1000);
         transform.parent = null;
         balloonSpawner = FindObjectOfType<BalloonSpawn>();
         ScoreManager = FindObjectOfType<ScoreManager>();
+    }
 
+    private void Update()
+    {
+        FaceUp();
+        if (test)
+        {
+            if (balloonTypeIndex == 0) // Bomb Balloon
+            {
+                Explode();
+            }
+        }
+    }
+
+    public void Inflate()
+    {
+        ++balloonSpawner.balloonsSpawned;
+        Spawned = true;
+        GetComponent<Rigidbody>().isKinematic = false;
         //Gets a random balloon type and sets a random colour if it's not a bomb
         float randomIndex = UnityEngine.Random.Range(0f, 1f);   //5%  
         if (randomIndex <= 0.05f)
         {
-            balloonTypeIndex = 0;                         
+            balloonTypeIndex = 0;
         }
         else if (randomIndex > 0.05f && randomIndex <= 0.15f)   //10%
         {
             balloonTypeIndex = 5;
         }
-        else if(randomIndex > 0.15f && randomIndex <= 0.3f)    //15%
+        else if (randomIndex > 0.15f && randomIndex <= 0.3f)    //15%
         {
             balloonTypeIndex = 4;
         }
@@ -58,30 +81,15 @@ public class BalloonManager : MonoBehaviour
         {
             balloonTypeIndex = 1;
         }
-        
 
 
-            balloonModels[balloonTypeIndex].SetActive(true);
 
-        //Tells network manager that it has spawned
-        GetComponent<NetworkObject>().Spawn();
-        
+        balloonModels[balloonTypeIndex].SetActive(true);
+
 
         //Set scale ready to grow
-        transform.localScale = Vector3.zero; 
+        transform.localScale = Vector3.zero;
         StartCoroutine(GrowObject());
-    }
-
-    private void Update()
-    {
-        FaceUp();
-        if (test)
-        {
-            if (balloonTypeIndex == 0) // Bomb Balloon
-            {
-                Explode();
-            }
-        }
     }
 
     private void FaceUp()
@@ -114,6 +122,7 @@ public class BalloonManager : MonoBehaviour
     {
         if (other.CompareTag("Dart"))
         {
+            //Debug.Log("hit");
             if (balloonTypeIndex == 0) // Bomb Balloon
             {
                 Explode();
@@ -159,7 +168,10 @@ public class BalloonManager : MonoBehaviour
         ScoreManager.AddScore(score);
 
         --balloonSpawner.balloonsSpawned;
-        Destroy(gameObject);
+        Spawned = false; 
+        transform.position = new Vector3(-1000, -1000, -1000);
+        GetComponent<Rigidbody>().isKinematic = true;
+        balloonModels[balloonTypeIndex].SetActive(false);
     }
 
     void Explode()
