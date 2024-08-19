@@ -7,7 +7,7 @@ public class StartButton : MonoBehaviour
 {
     public PokeInteractable pokeInteractable;
     public PushToStart pushToStart;
-    private bool isPressed = false;
+    public bool isPressed = false;
     private bool isBeingPressed = false;
 
     // Start is called before the first frame update
@@ -43,5 +43,11 @@ public class StartButton : MonoBehaviour
             pushToStart.ButtonPushedOff();
             isPressed = false;
         }
+    }
+
+    [ContextMenu("Start Bomb Spawn")]
+    void temp()
+    {
+        OnButtonPressed();
     }
 }

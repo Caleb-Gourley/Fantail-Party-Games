@@ -72,7 +72,7 @@ public class BombHeatSeeking : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log("Collided with: " + other.gameObject.name);
+        //Debug.Log("Collided with: " + other.gameObject.name);
         if(other.gameObject.name.Contains("Hand"))
         {   
             NetworkObject otherNetworkObject = FindNetworkObject(other.gameObject);

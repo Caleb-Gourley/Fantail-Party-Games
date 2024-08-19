@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    private int score = 0;
+    public int score = 0;
     private int highScore = 0;
-    private bool isAlive = true;
+    public bool isAlive = true;
 
     void Start()
     {
@@ -26,8 +26,13 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int points)
     {
-        score += points;
-        //Debug.Log($"Scored {points} points!");
+        if (isAlive) 
+        {
+            score += points;
+            //Debug.Log($"Scored {points} points!");
+        }
+
+
         Debug.LogWarning($"{gameObject.name} Total score is now {score} points.");
     }
 
