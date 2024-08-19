@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.Netcode;
+using Unity.Netcode.Components;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -72,14 +74,28 @@ public class BombHeatSeeking : MonoBehaviour
     {
         Debug.Log("Collided with: " + other.gameObject.name);
         if(other.gameObject.name.Contains("Hand"))
-        {
+        {   
+            NetworkObject otherNetworkObject = FindNetworkObject(other.gameObject);
+            GetComponent<NetworkObject>().ChangeOwnership(otherNetworkObject.OwnerClientId);
             Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
             StopCoroutine(WaitAndFindClosestPlayer());
             closestPlayer = null;
-            rb.AddForce(otherRb.velocity.normalized * 100, ForceMode.Acceleration);
+            rb.AddForce(otherRb.velocity.normalized * 50, ForceMode.VelocityChange);
             StartCoroutine(WaitAndFindClosestPlayer());
             
             // transform.position = Vector3.MoveTowards(transform.position, closestPlayer.transform.position, Vector3.Magnitude(rb.velocity));
+        }
+    }
+
+    private NetworkObject FindNetworkObject(GameObject other)
+    {
+        if(other.GetComponentInParent<NetworkObject>() == null)
+        {
+            return FindNetworkObject(other.transform.parent.gameObject); 
+        }
+        else
+        {
+            return other.GetComponentInParent<NetworkObject>();
         }
     }
 

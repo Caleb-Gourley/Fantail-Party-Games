@@ -242,7 +242,7 @@ PrefabInstance:
       addedObject: {fileID: 6346254221032687174}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a0adfce5e2ecaa74f8264aea65c2c4c7, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8701969590432068829}
+      addedObject: {fileID: 1105010546991232374}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a0adfce5e2ecaa74f8264aea65c2c4c7, type: 3}
       insertIndex: -1
       addedObject: {fileID: 56805032418550153}
@@ -390,7 +390,7 @@ MonoBehaviour:
   InLocalSpace: 0
   Interpolate: 1
   SlerpPosition: 0
---- !u!114 &8701969590432068829
+--- !u!114 &1105010546991232374
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
