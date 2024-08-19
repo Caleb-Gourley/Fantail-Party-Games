@@ -88,8 +88,8 @@ public class BalloonManager : MonoBehaviour
 
 
         //Set scale ready to grow
-        transform.localScale = Vector3.zero;
-        StartCoroutine(GrowObject());
+        //transform.localScale = Vector3.zero;
+       // StartCoroutine(GrowObject());
     }
 
     private void FaceUp()
