@@ -8610,7 +8610,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2189557336237102949, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: instanceId
-      value: 25a59e48-87f8-4ce0-a86f-3594a765cd0c
+      value: a412ac1d-0864-4ca4-8004-e4dfbc1be43f
       objectReference: {fileID: 0}
     - target: {fileID: 3870885383428749622, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: m_Enabled
@@ -8682,7 +8682,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8312512369656936820, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: instanceId
-      value: 8f33101e-3bb2-457e-996b-722d500fcaf8
+      value: 5990399c-0abb-4f5e-8adb-023d80a32140
       objectReference: {fileID: 0}
     - target: {fileID: 8718549654486597419, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: test
@@ -8823,6 +8823,10 @@ PrefabInstance:
     - target: {fileID: 9165212148302400527, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 1661894871
+      objectReference: {fileID: 0}
+    - target: {fileID: 9165212148302400527, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
+      propertyPath: ActiveSceneSynchronization
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9165212148302400527, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: InScenePlacedSourceGlobalObjectIdHash

@@ -308,7 +308,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2189557336237102949, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: instanceId
-      value: a560351c-3fa3-438e-8f09-46d31caa1ea7
+      value: 8cf4b775-3f12-4757-84f0-115be0554e02
       objectReference: {fileID: 0}
     - target: {fileID: 3870885383428749622, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: m_Enabled
@@ -461,6 +461,10 @@ PrefabInstance:
     - target: {fileID: 9165212148302400527, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 65063763
+      objectReference: {fileID: 0}
+    - target: {fileID: 9165212148302400527, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
+      propertyPath: ActiveSceneSynchronization
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8718549654486597419, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
