@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+
 public class BalloonManager : MonoBehaviour
 {
     public ParticleSystem popEffect;
@@ -28,6 +29,7 @@ public class BalloonManager : MonoBehaviour
 
     [HideInInspector]
     public bool Spawned;
+    [SerializeField] public AudioClip[] soundEffects = default;
 
     void Start()
     {
@@ -133,7 +135,15 @@ public class BalloonManager : MonoBehaviour
             }
         }
     }
-
+    public void PlaySFX(params AudioClip[] clips)
+    {
+        int randomIndex = UnityEngine.Random.Range(0, clips.Length);
+        AudioClip clipToPlay = clips[randomIndex];
+        AudioSource sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.clip = clipToPlay;
+        sfxSource.loop = false;
+        sfxSource.Play();
+    }
     public void PopBalloon()
     {
         if (balloonTypeIndex == 0) // Bomb Balloon
@@ -151,6 +161,7 @@ public class BalloonManager : MonoBehaviour
             {
                 popEffect.transform.SetParent(null);
                 popEffect.Play();
+                PlaySFX(soundEffects);
                 Destroy(popEffect.gameObject, popEffect.main.duration);
             }
         }
