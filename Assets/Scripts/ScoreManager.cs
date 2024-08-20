@@ -7,11 +7,20 @@ public class ScoreManager : MonoBehaviour
     public int score = 0;
     private int highScore = 0;
     public bool isAlive = true;
+    private BombRoundManager bombRoundManager;
 
     void Start()
     {
         ResetScore();
-        StartCoroutine(UpdateScoreEverySecond());
+        bombRoundManager = FindObjectOfType<BombRoundManager>();
+    }
+
+    void Update()
+    {
+        if (bombRoundManager.isGameActive)
+        {
+            StartCoroutine(UpdateScoreEverySecond());
+        }
     }
 
     private IEnumerator UpdateScoreEverySecond()
@@ -65,5 +74,10 @@ public class ScoreManager : MonoBehaviour
         {
             highScore = score;
         }
+    }
+
+    public void ResetAliveState()
+    {
+        isAlive = true;
     }
 }

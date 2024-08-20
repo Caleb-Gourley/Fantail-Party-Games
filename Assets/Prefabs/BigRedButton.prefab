@@ -209,6 +209,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pokeInteractable: {fileID: 8909244164856186949}
   pushToStart: {fileID: 0}
+  isPressed: 0
 --- !u!1 &804115470616645698
 GameObject:
   m_ObjectHideFlags: 0

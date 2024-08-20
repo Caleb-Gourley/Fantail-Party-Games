@@ -12,7 +12,6 @@ public class WallScript : MonoBehaviour
 
     Renderer cubeRen;
 
-    // Start is called before the first frame update
     void Start()
     {
         cubeRen = transform.Find("Cube").GetComponent<Renderer>();

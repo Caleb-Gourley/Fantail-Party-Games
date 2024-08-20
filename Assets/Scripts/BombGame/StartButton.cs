@@ -8,7 +8,7 @@ public class StartButton : MonoBehaviour
     public PokeInteractable pokeInteractable;
     public PushToStart pushToStart;
     public bool isPressed = false;
-    private bool isBeingPressed = false;
+    public bool isBeingPressed = false;
 
     // Start is called before the first frame update
     void Start()

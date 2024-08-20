@@ -92,6 +92,11 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
         prefabInstance.SetActive(false);
     }
 
+    public void Destroy()
+    {
+        prefabInstance.SetActive(false);
+    }
+
     public void SpawnInstance()
     {
         if(!IsServer)

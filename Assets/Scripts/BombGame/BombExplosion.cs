@@ -9,10 +9,13 @@ public class BombExplosion : MonoBehaviour
     private List<GameObject> playerNotHitByBomb = new List<GameObject>();
     public GameObject lastTouchedPlayer;
     public int numPlayersEliminated;
+    private BombRoundManager bombRoundManager;
+    
     // Start is called before the first frame update
     void Start()
     {
         bombPlayersManager = GetComponent<BombPlayersManager>();
+        bombRoundManager = GetComponent<BombRoundManager>();
         playerList = bombPlayersManager.GetPlayersList();
     }
 
@@ -22,6 +25,11 @@ public class BombExplosion : MonoBehaviour
         if(playerList == null)
         {
             GetActivePlayers();
+        }
+
+        if (CheckAllPlayersEliminated())
+        {
+            bombRoundManager.GameOver();
         }
     }
 
@@ -68,5 +76,17 @@ public class BombExplosion : MonoBehaviour
 
         numPlayersEliminated = 0;
         lastTouchedPlayer = null;
+    }
+
+    public bool CheckAllPlayersEliminated()
+    {
+        foreach (GameObject player in playerList)
+        {
+            if (player.GetComponent<ScoreManager>().isAlive)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }

@@ -7,19 +7,18 @@ public class WallSpawner : MonoBehaviour
 
     public GameObject BuildingBlockFindWallLocationSpawner;
     public int numberOfWallsInScene;
+    private BombRoundManager bombRoundManager;
 
-    // Start is called before the first frame update
     void Start()
     {
-
+        bombRoundManager = FindObjectOfType<BombRoundManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         numberOfWallsInScene = GameObject.FindGameObjectsWithTag("Wall").Length;
 
-        if (numberOfWallsInScene < 4)
+        if (numberOfWallsInScene < 4 && bombRoundManager.isGameActive)
         {
             Instantiate(BuildingBlockFindWallLocationSpawner);
         }
