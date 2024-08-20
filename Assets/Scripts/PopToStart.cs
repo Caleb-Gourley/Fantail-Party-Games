@@ -37,9 +37,9 @@ public class PopToStart : MonoBehaviour
 
         if (popEffect != null) 
         {
+            popEffect.transform.SetParent(null);
             popEffect.Play();
-            popEffect.Stop();
-            popEffect.Clear();
+            Destroy(popEffect.gameObject, popEffect.main.duration);
         }       
         gameObject.SetActive(false); //Needs to hid mesh then wait to disable object aftfter effect
     }
