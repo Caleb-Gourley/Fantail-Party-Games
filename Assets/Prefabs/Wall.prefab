@@ -49,8 +49,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd20946516723bf409c57ab7fc88a034, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minTime: 5
-  maxTime: 10
+  minTime: 15
+  maxTime: 18
+  timerLength: 0
+  startColor: {r: 0, g: 0.49481297, b: 1, a: 1}
+  endColor: {r: 1, g: 1, b: 1, a: 1}
+  blinkSpeed: 2
 --- !u!33 &485845131230478729
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -407,7 +411,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 4212878924
+  GlobalObjectIdHash: 3348433931
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1

@@ -5,11 +5,19 @@ using UnityEngine;
 public class WallScript : MonoBehaviour
 {
     public float minTime, maxTime;
-    private float timerLength;
+    public float timerLength;
+    public Color startColor = Color.red;
+    public Color endColor = Color.white;
+    public float blinkSpeed;
+
+    Renderer cubeRen;
 
     // Start is called before the first frame update
     void Start()
     {
+        cubeRen = transform.Find("Cube").GetComponent<Renderer>();
+        blinkSpeed = 8;
+
         timerLength = Random.Range(minTime, maxTime);
         // Debug.Log("Wall Despawn Timer: " + timerLength + "seconds");
 
@@ -19,6 +27,10 @@ public class WallScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        timerLength -= Time.deltaTime;
+        if (timerLength <= 3)
+        {
+            cubeRen.material.color = Color.Lerp(startColor, endColor, Mathf.PingPong(Time.time * blinkSpeed, 1));
+        }
     }
 }
