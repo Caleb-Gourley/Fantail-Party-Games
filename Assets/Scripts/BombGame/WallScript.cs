@@ -9,6 +9,7 @@ public class WallScript : MonoBehaviour
     public Color startColor = Color.red;
     public Color endColor = Color.white;
     public float blinkSpeed;
+    public bool sfxPlayed;
 
     Renderer cubeRen;
 
@@ -16,6 +17,7 @@ public class WallScript : MonoBehaviour
     {
         cubeRen = transform.Find("Cube").GetComponent<Renderer>();
         blinkSpeed = 8;
+
 
         timerLength = Random.Range(minTime, maxTime);
         // Debug.Log("Wall Despawn Timer: " + timerLength + "seconds");
@@ -31,5 +33,25 @@ public class WallScript : MonoBehaviour
         {
             cubeRen.material.color = Color.Lerp(startColor, endColor, Mathf.PingPong(Time.time * blinkSpeed, 1));
         }
+
+        if (timerLength <= 0.5f && !sfxPlayed)
+        {
+            Debug.Log("ShieldSFX Insert here");
+            PlayAudioSFX();
+        }
+    }
+
+
+    void PlayAudioSFX()
+    {
+        GetComponent<AudioSource>().PlayOneShot(GetComponent<AudioSource>().clip);
+        sfxPlayed = true;   
+       
+    }
+
+    [ContextMenu("play aduio")]
+    void temp()
+    {
+        PlayAudioSFX();
     }
 }
