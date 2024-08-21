@@ -54,6 +54,7 @@ public class BalloonManager : MonoBehaviour
 
     public void Inflate()
     {
+        //GetComponent<NetworkObject>().Spawn();
         ++balloonSpawner.balloonsSpawned;
         Spawned = true;
         GetComponent<Rigidbody>().isKinematic = false;
@@ -183,6 +184,8 @@ public class BalloonManager : MonoBehaviour
         transform.position = new Vector3(-1000, -1000, -1000);
         GetComponent<Rigidbody>().isKinematic = true;
         balloonModels[balloonTypeIndex].SetActive(false);
+        //GetComponent<NetworkObject>().Despawn();
+       // Destroy(gameObject);
     }
 
     void Explode()

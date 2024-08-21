@@ -65,6 +65,7 @@ public class RoundManager : MonoBehaviour
     {
         currentTimer = timer;
         startCanvas.gameObject.SetActive(false);
+        canvasStart.alpha = 0f;
         canvasGameOver.alpha = 0f;
         scoreManager.ResetScore();
         // Start a round couroutine and start spawning balloons if all players are ready 
@@ -114,7 +115,7 @@ public class RoundManager : MonoBehaviour
 
         canvasGroup.alpha = 1f;
     }
-        private void PositionCanvas(GameObject canvas)
+    private void PositionCanvas(GameObject canvas)
     {
         if (CameraRig != null)
         {
