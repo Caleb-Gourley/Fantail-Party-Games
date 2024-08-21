@@ -23968,7 +23968,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   balloonSpawn: {fileID: 1512295131}
   popToStart: {fileID: 1364589003}
-  timer: 90
+  timer: 180
   currentTimer: 0
   startCanvas: {fileID: 114771463}
   CameraRig: {fileID: 1429623221}

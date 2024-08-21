@@ -54,11 +54,33 @@ public class BalloonManager : MonoBehaviour
 
     public void Inflate()
     {
-        //GetComponent<NetworkObject>().Spawn();
-        ++balloonSpawner.balloonsSpawned;
         Spawned = true;
         GetComponent<Rigidbody>().isKinematic = false;
+
+        bool findType = false;
+        foreach (GameObject balloonModel in balloonModels)
+        {
+            if(!balloonModel.activeSelf)
+            {
+                findType = true;
+            }
+        }
+        if (findType)
+        {
+            RpcInflate();
+        }
+
+        //Set scale ready to grow
+        //transform.localScale = Vector3.zero;
+        // StartCoroutine(GrowObject());
+    }
+    [Rpc(SendTo.Server)]
+    private void RpcInflate()
+    {
         //Gets a random balloon type and sets a random colour if it's not a bomb
+
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        ++balloonSpawner.balloonsSpawned;
         float randomIndex = UnityEngine.Random.Range(0f, 1f);   //5%  
         if (randomIndex <= 0.05f)
         {
@@ -88,11 +110,6 @@ public class BalloonManager : MonoBehaviour
 
 
         balloonModels[balloonTypeIndex].SetActive(true);
-
-
-        //Set scale ready to grow
-        //transform.localScale = Vector3.zero;
-       // StartCoroutine(GrowObject());
     }
 
     private void FaceUp()
@@ -178,9 +195,14 @@ public class BalloonManager : MonoBehaviour
             case 0: score = 0; break; // Bomb Balloon could maybe score negative points or something
         }
         ScoreManager.AddScore(score);
+        RpcPopBalloon();
+    }
 
+    [Rpc(SendTo.Server)]
+    private void RpcPopBalloon()
+    {
         --balloonSpawner.balloonsSpawned;
-        Spawned = false; 
+        Spawned = false;
         transform.position = new Vector3(-1000, -1000, -1000);
         GetComponent<Rigidbody>().isKinematic = true;
         balloonModels[balloonTypeIndex].SetActive(false);

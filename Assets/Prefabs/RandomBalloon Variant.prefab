@@ -8373,6 +8373,18 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5245513076948507650, guid: 5c75b93e34e95c04a9e83fc035d2a20a, type: 3}
+      propertyPath: InitialModule.startLifetime.scalar
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245513076948507650, guid: 5c75b93e34e95c04a9e83fc035d2a20a, type: 3}
+      propertyPath: InitialModule.startLifetime.minScalar
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5245513076948507650, guid: 5c75b93e34e95c04a9e83fc035d2a20a, type: 3}
+      propertyPath: InitialModule.startLifetime.minMaxState
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5662936110514922837, guid: 5c75b93e34e95c04a9e83fc035d2a20a, type: 3}
       propertyPath: playOnAwake
       value: 0
@@ -8610,7 +8622,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2189557336237102949, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: instanceId
-      value: 9c7551fc-4a19-49b2-abe2-61190f41fe0f
+      value: 7bf7cbc9-dea6-4971-984f-1746a3c926a3
       objectReference: {fileID: 0}
     - target: {fileID: 3870885383428749622, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: m_Enabled
@@ -8682,7 +8694,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8312512369656936820, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: instanceId
-      value: 90b3ab4a-8be1-4d82-abfd-b6d6304708de
+      value: da435e8e-98a5-4e70-a44b-4742b42a7836
       objectReference: {fileID: 0}
     - target: {fileID: 8718549654486597419, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: test
@@ -8850,7 +8862,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9165212148302400527, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: GlobalObjectIdHash
-      value: 2438189531
+      value: 1661894871
+      objectReference: {fileID: 0}
+    - target: {fileID: 9165212148302400527, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
+      propertyPath: SynchronizeTransform
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9165212148302400527, guid: a7b196a40dc8cb54f979de3eb85ad744, type: 3}
       propertyPath: ActiveSceneSynchronization
