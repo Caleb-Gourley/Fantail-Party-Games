@@ -10,7 +10,8 @@ public class BombExplosion : MonoBehaviour
     public GameObject lastTouchedPlayer;
     public int numPlayersEliminated;
     private BombRoundManager bombRoundManager;
-    
+    public AudioSource audioSource;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,6 +47,8 @@ public class BombExplosion : MonoBehaviour
 
     public void OnBombExplosion(GameObject bomb)
     {
+        audioSource.Play();
+
         foreach (GameObject player in playerList)
         {
             RaycastHit hit;
@@ -55,6 +58,8 @@ public class BombExplosion : MonoBehaviour
             if (hit.collider.tag == "Wall")
             {
                 //playerNotHitByBomb.Add(player);
+                Debug.Log("WALL HIT _______");
+                player.GetComponent<SFXScript>().PlayClipReward();
             }
             else
             {
@@ -62,6 +67,8 @@ public class BombExplosion : MonoBehaviour
                 {
                     numPlayersEliminated++;
                 }
+                player.GetComponent<SFXScript>().PlayClipGG();
+
                 player.GetComponent<ScoreManager>().StopScoring();
             }
         }
