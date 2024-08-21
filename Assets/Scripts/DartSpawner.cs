@@ -145,8 +145,8 @@ public class DartSpawner : MonoBehaviour
             {
                 
                 Debug.DrawRay(transform.position, ((velocity.magnitude * direction + velocity) / 2) * 100f, Color.green, 1f);
-                Vector3 closestVector = CheckForBalloons((velocity.magnitude * direction + velocity) / 2, velocity);
-                newVelocity = closestVector;
+                //Vector3 closestVector = CheckForBalloons((velocity.magnitude * direction + velocity) / 2, velocity);
+                newVelocity = (velocity.magnitude * direction  + velocity * 2) / 3;
                 Debug.DrawRay(transform.position, newVelocity * 100f, Color.black, 1f);
             }
             

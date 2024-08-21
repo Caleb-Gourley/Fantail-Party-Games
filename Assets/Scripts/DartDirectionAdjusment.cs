@@ -7,6 +7,12 @@ public class DartDirectionAdjusment : MonoBehaviour
     public GameObject particle;
     public Transform particleSpawnLocation;
 
+    private void Update()
+    {
+        Quaternion rotation = Quaternion.LookRotation(GetComponent<Rigidbody>().velocity) * Quaternion.Euler(-90, 0, 0);
+        transform.rotation = rotation;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<BoxCollider>() || other.GetComponent<MeshCollider>())

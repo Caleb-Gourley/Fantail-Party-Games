@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 
+
 public class BalloonManager : MonoBehaviour
 {
     public ParticleSystem popEffect;
@@ -28,6 +29,7 @@ public class BalloonManager : MonoBehaviour
 
     [HideInInspector]
     public bool Spawned;
+    [SerializeField] public AudioClip[] soundEffects = default;
 
     void Start()
     {
@@ -52,10 +54,33 @@ public class BalloonManager : MonoBehaviour
 
     public void Inflate()
     {
-        ++balloonSpawner.balloonsSpawned;
         Spawned = true;
         GetComponent<Rigidbody>().isKinematic = false;
+
+        bool findType = false;
+        foreach (GameObject balloonModel in balloonModels)
+        {
+            if(!balloonModel.activeSelf)
+            {
+                findType = true;
+            }
+        }
+        if (findType)
+        {
+            RpcInflate();
+        }
+
+        //Set scale ready to grow
+        //transform.localScale = Vector3.zero;
+        // StartCoroutine(GrowObject());
+    }
+    [Rpc(SendTo.Server)]
+    private void RpcInflate()
+    {
         //Gets a random balloon type and sets a random colour if it's not a bomb
+
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        ++balloonSpawner.balloonsSpawned;
         float randomIndex = UnityEngine.Random.Range(0f, 1f);   //5%  
         if (randomIndex <= 0.05f)
         {
@@ -85,11 +110,6 @@ public class BalloonManager : MonoBehaviour
 
 
         balloonModels[balloonTypeIndex].SetActive(true);
-
-
-        //Set scale ready to grow
-        transform.localScale = Vector3.zero;
-        StartCoroutine(GrowObject());
     }
 
     private void FaceUp()
@@ -133,7 +153,15 @@ public class BalloonManager : MonoBehaviour
             }
         }
     }
-
+    public void PlaySFX(params AudioClip[] clips)
+    {
+        int randomIndex = UnityEngine.Random.Range(0, clips.Length);
+        AudioClip clipToPlay = clips[randomIndex];
+        AudioSource sfxSource = gameObject.AddComponent<AudioSource>();
+        sfxSource.clip = clipToPlay;
+        sfxSource.loop = false;
+        sfxSource.Play();
+    }
     public void PopBalloon()
     {
         if (balloonTypeIndex == 0) // Bomb Balloon
@@ -151,6 +179,7 @@ public class BalloonManager : MonoBehaviour
             {
                 popEffect.transform.SetParent(null);
                 popEffect.Play();
+                PlaySFX(soundEffects);
                 Destroy(popEffect.gameObject, popEffect.main.duration);
             }
         }
@@ -166,12 +195,19 @@ public class BalloonManager : MonoBehaviour
             case 0: score = 0; break; // Bomb Balloon could maybe score negative points or something
         }
         ScoreManager.AddScore(score);
+        RpcPopBalloon();
+    }
 
+    [Rpc(SendTo.Server)]
+    private void RpcPopBalloon()
+    {
         --balloonSpawner.balloonsSpawned;
-        Spawned = false; 
+        Spawned = false;
         transform.position = new Vector3(-1000, -1000, -1000);
         GetComponent<Rigidbody>().isKinematic = true;
         balloonModels[balloonTypeIndex].SetActive(false);
+        //GetComponent<NetworkObject>().Despawn();
+       // Destroy(gameObject);
     }
 
     void Explode()
