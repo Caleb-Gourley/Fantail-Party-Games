@@ -10,6 +10,8 @@ TagManager:
   - Hand
   - Bomb
   - BalloonSpawnLocation
+  - Button
+  - SFX
   layers:
   - Default
   - TransparentFX

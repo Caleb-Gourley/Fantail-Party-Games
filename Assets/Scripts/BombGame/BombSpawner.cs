@@ -18,10 +18,14 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
     public float maxLength = 30;
     [Tooltip("Time before bomb respawns")]
     public float timeBeforeRespawn = 2;
+    public Material bombMaterial;
+    private float timer;
+    private float timerStart;
 
     private GameObject prefabInstance;
     private NetworkObject spawnedNetworkObject;
     private BombExplosion bombExplosion;
+
 
     private void Start()
     {
@@ -32,9 +36,35 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
         bombExplosion = FindObjectOfType<BombExplosion>();
     }
 
+    private void FixedUpdate()
+    {
+        if(prefabInstance.activeSelf)
+        {
+            timer -= Time.deltaTime;
+            bombMaterial.color = Color.green;
+            if(timer < timerStart / 3 * 2 && timer > timerStart / 3)
+            {
+                bombMaterial.color = Color.yellow;
+            }
+            else if(timer < timerStart / 3 && timer > 0)
+            {
+                bombMaterial.color = Color.red;
+            }
+            else if(timer <= 0)
+            {
+                StartCoroutine(DespawnTimer());
+            }
+        }
+    }
+
+    private void StartTimer()
+    {
+        timerStart = Random.Range(minLength, maxLength);
+        timer = timerStart;
+    }
+
     private IEnumerator DespawnTimer()
     {
-        yield return new WaitForSeconds(Random.Range(minLength, maxLength));
         bombExplosion.OnBombExplosion(prefabInstance);
         spawnedNetworkObject.Despawn();
         StartCoroutine(SpawnTimer());
@@ -62,6 +92,11 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
         prefabInstance.SetActive(false);
     }
 
+    public void Destroy()
+    {
+        prefabInstance.SetActive(false);
+    }
+
     public void SpawnInstance()
     {
         if(!IsServer)
@@ -76,7 +111,7 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
             prefabInstance.transform.position = spawnLocation;
             prefabInstance.SetActive(true);
             spawnedNetworkObject.Spawn();
-            StartCoroutine(DespawnTimer());
+            StartTimer();
         }
     }
 

@@ -4,30 +4,26 @@ using UnityEngine;
 
 public class WallSpawner : MonoBehaviour
 {
-    public float minTime, maxTime;
-    private float timerLength;
-    public GameObject BuildingBlockFindWallLocationSpawner;
 
-    // Start is called before the first frame update
+    public GameObject BuildingBlockFindWallLocationSpawner;
+    public int numberOfWallsInScene;
+    private BombRoundManager bombRoundManager;
+
     void Start()
     {
-        timerLength = Random.Range(minTime, maxTime);
-        Instantiate(BuildingBlockFindWallLocationSpawner);
-        Instantiate(BuildingBlockFindWallLocationSpawner);
-        Instantiate(BuildingBlockFindWallLocationSpawner);
-        Instantiate(BuildingBlockFindWallLocationSpawner);
+        bombRoundManager = FindObjectOfType<BombRoundManager>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        timerLength -= Time.deltaTime;
-        if (timerLength <= 0)
+        numberOfWallsInScene = GameObject.FindGameObjectsWithTag("Wall").Length;
+
+        if (numberOfWallsInScene < 4 && bombRoundManager.isGameActive)
         {
-            timerLength = 100f;
             Instantiate(BuildingBlockFindWallLocationSpawner);
-            timerLength = Random.Range(minTime, maxTime);
-            // Debug.Log("WALL TIMERRRRRRRRRRRRRRRRR: " + timerLength);
         }
+
     }
+
+
 }
