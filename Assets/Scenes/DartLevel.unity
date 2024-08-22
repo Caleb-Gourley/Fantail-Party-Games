@@ -22732,7 +22732,7 @@ MonoBehaviour:
   gameOverCanvas: {fileID: 1552106929}
   gameOverScore: {fileID: 1060937469}
   highScore: {fileID: 1737854273}
-  fadeDuration: 0.3
+  fadeDuration: 0.5
   test: 0
   distanceFromCamera: 1
   popToStartOffset: 0.75
