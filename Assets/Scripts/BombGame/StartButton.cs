@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Oculus.Interaction;
+using Unity.Netcode;
 using UnityEngine;
 
 public class StartButton : MonoBehaviour
@@ -14,6 +15,7 @@ public class StartButton : MonoBehaviour
     void Start()
     {
         pushToStart = FindObjectOfType<PushToStart>();
+        pushToStart.button = this.gameObject;
     }
 
     // Update is called once per frame
@@ -35,14 +37,26 @@ public class StartButton : MonoBehaviour
     {
         if(!isPressed)
         {
-            pushToStart.ButtonPushedOn();
+            StartButtonPressedOnRpc();
             isPressed = true;
         }
         else if(isPressed)
         {
-            pushToStart.ButtonPushedOff();
+            StartButtonPressedOffRpc();
             isPressed = false;
         }
+    }
+
+    [Rpc(SendTo.Server)]
+    public void StartButtonPressedOnRpc()
+    {
+        pushToStart.ButtonPushedOn();
+    }
+
+    [Rpc(SendTo.Server)]
+    public void StartButtonPressedOffRpc()
+    {
+        pushToStart.ButtonPushedOff();
     }
 
     [ContextMenu("Start Bomb Spawn")]

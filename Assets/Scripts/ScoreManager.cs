@@ -6,8 +6,10 @@ public class ScoreManager : MonoBehaviour
 {
     public int score = 0;
     private int highScore = 0;
+    private int bonusPoints = 0;
     public bool isAlive = true;
     private BombRoundManager bombRoundManager;
+    private bool isRunning = false;
 
     void Start()
     {
@@ -17,7 +19,7 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
-        if (bombRoundManager.isGameActive)
+        if (bombRoundManager.isGameActive && !isRunning)
         {
             StartCoroutine(UpdateScoreEverySecond());
         }
@@ -25,12 +27,14 @@ public class ScoreManager : MonoBehaviour
 
     private IEnumerator UpdateScoreEverySecond()
     {
-        while (isAlive)
+        isRunning = true;
+        while (isAlive && bombRoundManager.isGameActive)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSecondsRealtime(1);
 
             AddScore(1);
         }
+        isRunning = false;
     }
 
     public void AddScore(int points)
@@ -42,7 +46,12 @@ public class ScoreManager : MonoBehaviour
         }
 
 
-        Debug.LogWarning($"{gameObject.name} Total score is now {score} points.");
+        // Debug.LogWarning($"{gameObject.name} Total score is now {score} points.");
+    }
+
+    public void AddBonusPoints(int newScore)
+    {
+        bonusPoints += newScore;
     }
 
     public void SetScore(int newScore)
@@ -53,19 +62,20 @@ public class ScoreManager : MonoBehaviour
 
     public int GetScore()
     {
-        return score;
+        return score + bonusPoints;
     }
 
     public void ResetScore()
     {
         score = 0;
+        bonusPoints = 0;
         Debug.Log("Score reset to 0.");
     }
 
     public void StopScoring()
     {
         isAlive = false;
-        Debug.LogWarning($"{gameObject.name} has stopped earning points.");
+        // Debug.LogWarning($"{gameObject.name} has stopped earning points.");
     }
 
     public void SetHighScore()

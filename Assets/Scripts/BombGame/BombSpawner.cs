@@ -25,6 +25,7 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
     private GameObject prefabInstance;
     private NetworkObject spawnedNetworkObject;
     private BombExplosion bombExplosion;
+    private bool gameOver = false;
 
 
     private void Start()
@@ -63,6 +64,11 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
         timer = timerStart;
     }
 
+    public void Stop()
+    {
+        gameOver = true;
+    }
+
     private IEnumerator DespawnTimer()
     {
         bombExplosion.OnBombExplosion(prefabInstance);
@@ -74,6 +80,10 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
     private IEnumerator SpawnTimer()
     {
         yield return new WaitForSeconds(timeBeforeRespawn);
+        if(gameOver)
+        {
+            yield break;
+        }
         SpawnInstance();
         prefabInstance.GetComponent<BombHeatSeeking>().FindNewPlayer();
         yield break;
@@ -92,11 +102,6 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
         prefabInstance.SetActive(false);
     }
 
-    public void Destroy()
-    {
-        prefabInstance.SetActive(false);
-    }
-
     public void SpawnInstance()
     {
         if(!IsServer)
@@ -105,6 +110,7 @@ public class BombSpawner : NetworkBehaviour, INetworkPrefabInstanceHandler
         }
 
         Vector3 spawnLocation = GetSpawnLocation();
+        gameOver = false;
 
         if(prefabInstance != null && spawnedNetworkObject != null && !spawnedNetworkObject.IsSpawned)
         {

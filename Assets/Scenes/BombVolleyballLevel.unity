@@ -21011,7 +21011,7 @@ MonoBehaviour:
   _scoringModifier:
     _positionRotationWeight: 0.5
   _slippiness: 0
-  _supportedGrabTypes: 3
+  _supportedGrabTypes: -1
   _pinchGrabRules:
     _thumbRequirement: 0
     _indexRequirement: 1
@@ -24670,7 +24670,7 @@ MonoBehaviour:
   _scoringModifier:
     _positionRotationWeight: 0.5
   _slippiness: 0
-  _supportedGrabTypes: 3
+  _supportedGrabTypes: -1
   _pinchGrabRules:
     _thumbRequirement: 0
     _indexRequirement: 1
@@ -33904,7 +33904,7 @@ GameObject:
   - component: {fileID: 2055071251}
   - component: {fileID: 2055071252}
   m_Layer: 0
-  m_Name: PlayerManager
+  m_Name: GameManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33989,6 +33989,8 @@ MonoBehaviour:
   bombSpawner: {fileID: 797774277}
   buttonPressed:
     m_InternalValue: 0
+  bombPlayersManager: {fileID: 2055071246}
+  button: {fileID: 0}
 --- !u!114 &2055071251
 MonoBehaviour:
   m_ObjectHideFlags: 0

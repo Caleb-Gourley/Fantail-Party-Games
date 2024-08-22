@@ -26,7 +26,7 @@ public class BombHeatSeeking : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerManager = GameObject.Find("PlayerManager");
+        playerManager = GameObject.Find("GameManager");
         playersList = playerManager.GetComponent<BombPlayersManager>().GetPlayersList();
         rb = GetComponent<Rigidbody>();
         rb.isKinematic = false;

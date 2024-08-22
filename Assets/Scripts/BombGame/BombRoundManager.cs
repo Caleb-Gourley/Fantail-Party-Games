@@ -43,6 +43,7 @@ public class BombRoundManager : MonoBehaviour
 
     public void GameOver()
     {
+        isGameActive = false;
         gameOverCanvas.gameObject.SetActive(true);
         StartCoroutine(FadeInCanvas());
 
@@ -58,8 +59,7 @@ public class BombRoundManager : MonoBehaviour
             highScore.text = highScoreValue.ToString();
         }
 
-        pushToStart.EndGame();
-        isGameActive = false;
+        pushToStart.EndGameRpc();
     }
 
     private IEnumerator FadeInCanvas()

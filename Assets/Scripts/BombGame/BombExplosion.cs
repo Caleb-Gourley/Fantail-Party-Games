@@ -77,7 +77,7 @@ public class BombExplosion : MonoBehaviour
 
         if (lastTouchedPlayer != null && lastTouchedPlayer.GetComponent<ScoreManager>().isAlive == false)
         {
-            lastTouchedPlayer.GetComponent<ScoreManager>().AddScore(numPlayersEliminated * 10);
+            lastTouchedPlayer.GetComponent<ScoreManager>().AddBonusPoints(numPlayersEliminated * 10);
             Debug.Log(lastTouchedPlayer + " has eliminated " + numPlayersEliminated + " gaining score: " + numPlayersEliminated * 10);
         }
 
