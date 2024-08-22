@@ -67,7 +67,7 @@ public class BalloonManager : MonoBehaviour
         }
         if (findType)
         {
-            RpcInflate();
+            InflateRpc();
         }
 
         //Set scale ready to grow
@@ -75,7 +75,7 @@ public class BalloonManager : MonoBehaviour
         // StartCoroutine(GrowObject());
     }
     [Rpc(SendTo.Server)]
-    private void RpcInflate()
+    private void InflateRpc()
     {
         //Gets a random balloon type and sets a random colour if it's not a bomb
 
@@ -195,19 +195,17 @@ public class BalloonManager : MonoBehaviour
             case 0: score = 0; break; // Bomb Balloon could maybe score negative points or something
         }
         ScoreManager.AddScore(score);
-        RpcPopBalloon();
+        PopBalloonRpc();
     }
 
     [Rpc(SendTo.Server)]
-    private void RpcPopBalloon()
+    private void PopBalloonRpc()
     {
         --balloonSpawner.balloonsSpawned;
         Spawned = false;
         transform.position = new Vector3(-1000, -1000, -1000);
         GetComponent<Rigidbody>().isKinematic = true;
         balloonModels[balloonTypeIndex].SetActive(false);
-        //GetComponent<NetworkObject>().Despawn();
-       // Destroy(gameObject);
     }
 
     void Explode()
@@ -224,7 +222,7 @@ public class BalloonManager : MonoBehaviour
         }
         PopBalloon();
     }
-}
-
-
+}    
+     
+     
             
