@@ -26,6 +26,8 @@ public class PlayerHandColliderScript : MonoBehaviour
             playerCollider.GetComponent<ScoreManager>().AddScore(15);
 
             playerManager.GetComponent<BombExplosion>().SetLastTouchedPlayer(playerCollider);
+
+            playerCollider.GetComponent<SFXScript>().PlayClipImpact();
         }
     }
 }
