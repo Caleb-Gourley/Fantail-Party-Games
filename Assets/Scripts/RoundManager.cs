@@ -31,21 +31,19 @@ public class RoundManager : MonoBehaviour
     
     private ScoreManager scoreManager;
     private int highScoreValue = 0;
-    private CanvasGroup canvasGameOver;
-    private CanvasGroup canvasStart;
+    private CanvasGroup gameOverCG;
+    private CanvasGroup startGameCG;
 
 
     void Start()
     {
         // Get components
         scoreManager = GetComponent<ScoreManager>();
-        canvasGameOver = GameObject.Find("GameOverUi").GetComponent<CanvasGroup>();
-        canvasStart = GameObject.Find("StartGameUi").GetComponent<CanvasGroup>();
+        gameOverCG = gameOverCanvas.GetComponent<CanvasGroup>();
+        startGameCG = startCanvas.GetComponent<CanvasGroup>();
         startCanvas.gameObject.SetActive(true);
-        canvasStart.alpha = 0f;
-        PositionCanvas(startCanvas.gameObject);
-        PositionPopToStart(popToStart.gameObject);
-        StartCoroutine(FadeInCanvas(canvasStart));
+        startGameCG.alpha = 0f;
+        StartCoroutine(GameLoad());
         if (gameOverCanvas != null)
         {
             gameOverCanvas.gameObject.SetActive(false);
@@ -65,11 +63,10 @@ public class RoundManager : MonoBehaviour
     {
         currentTimer = timer;
         startCanvas.gameObject.SetActive(false);
-        canvasStart.alpha = 0f;
-        canvasGameOver.alpha = 0f;
+        startGameCG.alpha = 0f;
+        gameOverCG.alpha = 0f;
         scoreManager.ResetScore();
         // Start a round couroutine and start spawning balloons if all players are ready 
-        // StartCoroutine(RoundTimer());
         // balloonSpawn.StartSpawning(); 
         StartCoroutine(RoundTimer());
 
@@ -79,7 +76,7 @@ public class RoundManager : MonoBehaviour
     {
         gameOverCanvas.gameObject.SetActive(true);
         PositionCanvas(gameOverCanvas.gameObject);
-        StartCoroutine(FadeInCanvas(canvasGameOver));
+        StartCoroutine(FadeInCanvas(gameOverCG));
         PositionPopToStart(popToStart.gameObject);
         gameOverScore.text = scoreManager.GetScore().ToString();
         
@@ -123,6 +120,7 @@ public class RoundManager : MonoBehaviour
             Vector3 canvasPosition = CameraRig.transform.position + cameraForward * distanceFromCamera;
             canvas.transform.position = canvasPosition;
             canvas.transform.rotation = Quaternion.LookRotation(cameraForward);
+            StartCoroutine(FadeInCanvas(canvas.GetComponent<CanvasGroup>()));
         }
     }
 
@@ -151,8 +149,12 @@ public class RoundManager : MonoBehaviour
 
             //Debug.Log("Time Remaining: " + currentTimer);
         }
-
-        // Round is over, perform any necessary actions
         GameOver();
+    }
+    public IEnumerator GameLoad()
+    {
+        yield return new WaitForSeconds(3f);
+        PositionCanvas(startCanvas.gameObject);
+        PositionPopToStart(popToStart.gameObject);
     }
 }
