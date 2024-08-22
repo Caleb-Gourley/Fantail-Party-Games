@@ -168,19 +168,22 @@ public class BalloonManager : MonoBehaviour
         {
             if (bombEffect != null) // Plays bomb effect when balloon is popped
             {
-                bombEffect.transform.SetParent(null);
-                bombEffect.Play();
-                Destroy(bombEffect.gameObject, bombEffect.main.duration);
+                ParticleSystem tempBombEffect = Instantiate(bombEffect, transform);
+                tempBombEffect.transform.localPosition = Vector3.zero;
+                tempBombEffect.transform.SetParent(null);
+                tempBombEffect.Play();
+                Destroy(tempBombEffect.gameObject, 5);
             }
         }
         else
         {
             if (popEffect != null) // Plays confetti effect when balloon is popped 
             {
-                popEffect.transform.SetParent(null);
-                popEffect.Play();
-                PlaySFX(soundEffects);
-                Destroy(popEffect.gameObject, popEffect.main.duration);
+                ParticleSystem tempPopEffect = Instantiate(popEffect, transform);
+                tempPopEffect.transform.localPosition = Vector3.zero;
+                tempPopEffect.transform.SetParent(null);
+                tempPopEffect.Play();
+                Destroy(tempPopEffect.gameObject, 5);
             }
         }
 
