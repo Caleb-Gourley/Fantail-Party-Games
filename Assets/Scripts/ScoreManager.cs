@@ -4,14 +4,23 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    private int score = 0;
+    public int score = 0;
     private int highScore = 0;
-    private bool isAlive = true;
+    public bool isAlive = true;
+    private BombRoundManager bombRoundManager;
 
     void Start()
     {
         ResetScore();
-        StartCoroutine(UpdateScoreEverySecond());
+        bombRoundManager = FindObjectOfType<BombRoundManager>();
+    }
+
+    void Update()
+    {
+        if (bombRoundManager.isGameActive)
+        {
+            StartCoroutine(UpdateScoreEverySecond());
+        }
     }
 
     private IEnumerator UpdateScoreEverySecond()
@@ -26,8 +35,13 @@ public class ScoreManager : MonoBehaviour
 
     public void AddScore(int points)
     {
-        score += points;
-        //Debug.Log($"Scored {points} points!");
+        if (isAlive) 
+        {
+            score += points;
+            //Debug.Log($"Scored {points} points!");
+        }
+
+
         Debug.LogWarning($"{gameObject.name} Total score is now {score} points.");
     }
 
@@ -60,5 +74,10 @@ public class ScoreManager : MonoBehaviour
         {
             highScore = score;
         }
+    }
+
+    public void ResetAliveState()
+    {
+        isAlive = true;
     }
 }
