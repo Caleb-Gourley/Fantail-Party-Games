@@ -11,6 +11,8 @@ public class PopToStart : MonoBehaviour
 
     public bool test;
 
+    public AudioClip[] soundEffects;
+
     private void Update()
     {
         if(test)
@@ -35,13 +37,25 @@ public class PopToStart : MonoBehaviour
     public void PopBalloon()
     {
 
-        if (popEffect != null) 
+        if (popEffect != null) // Plays confetti effect when balloon is popped 
         {
-            popEffect.transform.SetParent(null);
-            popEffect.Play();
-            Destroy(popEffect.gameObject, popEffect.main.duration);
-        }       
+            ParticleSystem tempPopEffect = Instantiate(popEffect, transform);
+            PlaySFX(tempPopEffect.gameObject);
+            tempPopEffect.transform.localPosition = Vector3.zero;
+            tempPopEffect.transform.SetParent(null);
+            tempPopEffect.Play();
+            Destroy(tempPopEffect.gameObject, 5);
+        }
         gameObject.SetActive(false); //Needs to hid mesh then wait to disable object aftfter effect
+    }
+
+    public void PlaySFX(GameObject balloonParticles)
+    {
+        int randomIndex = Random.Range(0, soundEffects.Length);
+        AudioClip clipToPlay = soundEffects[randomIndex];
+        AudioSource sfxSource = balloonParticles.AddComponent<AudioSource>();
+        sfxSource.clip = clipToPlay;
+        sfxSource.Play(0);
     }
 
 }
