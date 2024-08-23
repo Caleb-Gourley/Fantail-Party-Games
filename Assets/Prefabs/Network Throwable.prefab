@@ -4181,7 +4181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fd3bd388fd503a44832fdf1537bbed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  particle: {fileID: 6230034946079911853, guid: 4ad3cb9ef978ec844a9565690fcd665c, type: 3}
+  particle: {fileID: 5524775595191347652, guid: 5c100871c42c21142b2bcc12bce30edd, type: 3}
   particleSpawnLocation: {fileID: 3850705895642782031}
 --- !u!64 &8475123894368899249
 MeshCollider:

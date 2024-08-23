@@ -66,7 +66,7 @@ public class DartSpawner : MonoBehaviour
     {
         if (fingerTracker.GetDistanceBetween(hand.index, hand.thumb) < distanceToPinch || fingerTracker.GetDistanceBetween(hand.middle, hand.thumb) < distanceToPinch)
         {
-            dart.SetActive(true);
+            dartModel.SetActive(true);
             if (!spawned)
             {
                 StartCoroutine(DartGrow());
@@ -81,9 +81,11 @@ public class DartSpawner : MonoBehaviour
                 SpawnDart();
             }
 
-            dart.SetActive(false);
+            dartModel.SetActive(false);
         }
     }
+
+
 
     private Vector3 CheckForBalloons(Vector3 velocityDirection, Vector3 throwVelocity)
     {
@@ -152,8 +154,8 @@ public class DartSpawner : MonoBehaviour
             
         }
 
-        GameObject newDart = Instantiate(throwableDart, transform.position, transform.rotation); 
-      
+        GameObject newDart = Instantiate(throwableDart, transform.position, transform.rotation);
+
         DartIdentifier dartIdentifier = newDart.GetComponent<DartIdentifier>();
         if (playerIdentifier != null)
         {
@@ -166,7 +168,7 @@ public class DartSpawner : MonoBehaviour
             Debug.LogWarning("PlayerIdentifier not found. Unable to set player name on dart.");
         }
 
-        newDart.tag = "Dart"; 
+        newDart.tag = "Dart";
         //newDart.GetComponent<NetworkObject>().Spawn();
         newDart.GetComponent<Rigidbody>().isKinematic = false;
         newDart.GetComponent<Rigidbody>().velocity = newVelocity * 3;
@@ -182,6 +184,7 @@ public class DartSpawner : MonoBehaviour
         Destroy(newDart, 5);
         spawned = false;
     }
+
     
     private void CalculateVelocity()
     {
@@ -202,8 +205,9 @@ public class DartSpawner : MonoBehaviour
         }
         previousPosition = transform.position;
     }
-    
 
+
+    
     IEnumerator DartGrow() //Particles as well
     {
         particle.Play();

@@ -12,12 +12,15 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         ResetScore();
+        if (FindObjectOfType<BombRoundManager>() != null)
+        {
         bombRoundManager = FindObjectOfType<BombRoundManager>();
+        }
     }
 
     void Update()
     {
-        if (bombRoundManager.isGameActive)
+        if (bombRoundManager != null & bombRoundManager.isGameActive)
         {
             StartCoroutine(UpdateScoreEverySecond());
         }
