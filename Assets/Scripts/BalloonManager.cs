@@ -6,7 +6,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 
-public class BalloonManager : MonoBehaviour
+public class BalloonManager : NetworkBehaviour
 {
     public ParticleSystem popEffect;
     public ParticleSystem bombEffect;
@@ -57,19 +57,8 @@ public class BalloonManager : MonoBehaviour
     {
         Spawned = true;
         GetComponent<Rigidbody>().isKinematic = false;
+        InflateRpc();
 
-        bool findType = false;
-        foreach (GameObject balloonModel in balloonModels)
-        {
-            if(!balloonModel.activeSelf)
-            {
-                findType = true;
-            }
-        }
-        if (findType)
-        {
-            InflateRpc();
-        }
 
         //Set scale ready to grow
         //transform.localScale = Vector3.zero;
@@ -109,8 +98,25 @@ public class BalloonManager : MonoBehaviour
         }
 
 
+        ChangeBalloons();
 
-        balloonModels[balloonTypeIndex].SetActive(true);
+
+    }
+
+    void ChangeBalloons()
+    {
+        foreach (GameObject balloonModel in balloonModels)
+        {
+            if (balloonModel == balloonModels[balloonTypeIndex])
+            {
+                balloonModels[balloonTypeIndex].SetActive(true);
+            }
+            else
+            {
+                balloonModel.SetActive(false);
+            }
+        }
+
     }
 
     private void FaceUp()
@@ -154,16 +160,25 @@ public class BalloonManager : MonoBehaviour
             }
         }
     }
-    public void PlaySFX(params AudioClip[] clips)
-    {
-        int randomIndex = UnityEngine.Random.Range(0, clips.Length);
-        AudioClip clipToPlay = clips[randomIndex];
-        AudioSource sfxSource = gameObject.AddComponent<AudioSource>();
-        sfxSource.clip = clipToPlay;
-        sfxSource.loop = false;
-        sfxSource.Play();
-    }
+
     public void PopBalloon()
+    {
+        int score = 0;
+        switch (balloonTypeIndex)
+        {
+            case 1: score = 100; break;
+            case 2: score = 200; break;
+            case 3: score = 300; break;
+            case 4: score = 400; break;
+            case 5: score = 500; break;
+            case 0: score = 0; break; // Bomb Balloon could maybe score negative points or something
+        }
+        ScoreManager.AddScore(score);
+        PopBalloonRpc();
+    }
+
+    [Rpc(SendTo.Everyone)]
+    private void PopBalloonRpc()
     {
         if (balloonTypeIndex == 0) // Bomb Balloon
         {
@@ -189,24 +204,6 @@ public class BalloonManager : MonoBehaviour
                 Destroy(tempPopEffect.gameObject, 5);
             }
         }
-
-        int score = 0;
-        switch (balloonTypeIndex)
-        {
-            case 1: score = 100; break;
-            case 2: score = 200; break;
-            case 3: score = 300; break;
-            case 4: score = 400; break;
-            case 5: score = 500; break;
-            case 0: score = 0; break; // Bomb Balloon could maybe score negative points or something
-        }
-        ScoreManager.AddScore(score);
-        PopBalloonRpc();
-    }
-
-    [Rpc(SendTo.Everyone)]
-    private void PopBalloonRpc()
-    {
         --balloonSpawner.balloonsSpawned;
         Spawned = false;
         transform.position = new Vector3(-1000, -1000, -1000);

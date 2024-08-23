@@ -21,9 +21,9 @@ public class DartDirectionAdjusment : MonoBehaviour
             {
                 GameObject TempParticles = Instantiate(particle);
                 TempParticles.transform.position = particleSpawnLocation.position;
-                gameObject.SetActive(false);
+               // gameObject.SetActive(false);
                 Destroy(TempParticles, 0.6f);
-                Destroy(gameObject, 0.6f);
+               // Destroy(gameObject, 0.6f);
             }
         }
        
