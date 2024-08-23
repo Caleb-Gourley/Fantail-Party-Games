@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 
 public class BalloonManager : MonoBehaviour
@@ -29,7 +30,7 @@ public class BalloonManager : MonoBehaviour
 
     [HideInInspector]
     public bool Spawned;
-    [SerializeField] public AudioClip[] soundEffects = default;
+    public AudioClip[] soundEffects;
 
     void Start()
     {
@@ -74,7 +75,7 @@ public class BalloonManager : MonoBehaviour
         //transform.localScale = Vector3.zero;
         // StartCoroutine(GrowObject());
     }
-    [Rpc(SendTo.Server)]
+    [Rpc(SendTo.Everyone)]
     private void InflateRpc()
     {
         //Gets a random balloon type and sets a random colour if it's not a bomb
@@ -169,6 +170,7 @@ public class BalloonManager : MonoBehaviour
             if (bombEffect != null) // Plays bomb effect when balloon is popped
             {
                 ParticleSystem tempBombEffect = Instantiate(bombEffect, transform);
+                PlaySFX(tempBombEffect.gameObject);
                 tempBombEffect.transform.localPosition = Vector3.zero;
                 tempBombEffect.transform.SetParent(null);
                 tempBombEffect.Play();
@@ -180,6 +182,7 @@ public class BalloonManager : MonoBehaviour
             if (popEffect != null) // Plays confetti effect when balloon is popped 
             {
                 ParticleSystem tempPopEffect = Instantiate(popEffect, transform);
+                PlaySFX(tempPopEffect.gameObject);
                 tempPopEffect.transform.localPosition = Vector3.zero;
                 tempPopEffect.transform.SetParent(null);
                 tempPopEffect.Play();
@@ -201,7 +204,7 @@ public class BalloonManager : MonoBehaviour
         PopBalloonRpc();
     }
 
-    [Rpc(SendTo.Server)]
+    [Rpc(SendTo.Everyone)]
     private void PopBalloonRpc()
     {
         --balloonSpawner.balloonsSpawned;
@@ -209,6 +212,15 @@ public class BalloonManager : MonoBehaviour
         transform.position = new Vector3(-1000, -1000, -1000);
         GetComponent<Rigidbody>().isKinematic = true;
         balloonModels[balloonTypeIndex].SetActive(false);
+    }
+
+    public void PlaySFX(GameObject balloonParticles)
+    {
+        int randomIndex = Random.Range(0, soundEffects.Length);
+        AudioClip clipToPlay = soundEffects[randomIndex];
+        AudioSource sfxSource = balloonParticles.AddComponent<AudioSource>();
+        sfxSource.clip = clipToPlay;
+        sfxSource.Play(0);
     }
 
     void Explode()
