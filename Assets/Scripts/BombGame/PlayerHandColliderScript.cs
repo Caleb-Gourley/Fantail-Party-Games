@@ -23,7 +23,7 @@ public class PlayerHandColliderScript : MonoBehaviour
         if (other.CompareTag("Bomb"))
         {
             Debug.Log("BOMB HANDLED");
-            playerCollider.GetComponent<ScoreManager>().AddScore(15);
+            playerCollider.GetComponent<ScoreManager>().AddBonusPoints(15);
 
             playerManager.GetComponent<BombExplosion>().SetLastTouchedPlayer(playerCollider);
 

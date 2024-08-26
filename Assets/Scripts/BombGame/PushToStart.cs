@@ -10,13 +10,13 @@ public class PushToStart : NetworkBehaviour
     public NetworkVariable<int> buttonPressed = new NetworkVariable<int>(0);
     private NetworkManager networkManager;
     private BombRoundManager bombRoundManager;
-    private StartButton startButton;
+    public BombPlayersManager bombPlayersManager;
+    public GameObject button;
     
     void Start()
     {
         networkManager = FindObjectOfType<NetworkManager>();
         bombRoundManager = FindObjectOfType<BombRoundManager>();
-        startButton = FindObjectOfType<StartButton>();
     }
 
     // Update is called once per frame
@@ -29,8 +29,7 @@ public class PushToStart : NetworkBehaviour
 
         if(buttonPressed.Value == networkManager.ConnectedClients.Count)
         {
-            StartGame();
-            bombRoundManager.StartGame();
+            StartGameRpc();
         }
     }
 
@@ -44,36 +43,27 @@ public class PushToStart : NetworkBehaviour
         buttonPressed.Value--;
     }
 
-
-    private void StartGame()
+    [Rpc(SendTo.Everyone)]
+    private void StartGameRpc()
     {
         buttonPressed.Value = 0;
         bombSpawner.SpawnInstance();
-        GameObject[] buttons = GameObject.FindGameObjectsWithTag("Button");
-        foreach (GameObject button in buttons)
+        button.SetActive(false);
+        foreach (var player in bombPlayersManager.GetPlayersList())
         {
-            MeshRenderer[] meshRenderers = button.GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer meshRenderer in meshRenderers)
-            {
-                meshRenderer.enabled = false;
-            }
+            player.GetComponent<ScoreManager>().ResetAliveState();
+            player.GetComponent<ScoreManager>().ResetScore();
         }
+        bombRoundManager.StartGame();
     }
 
-    public void EndGame()
+    [Rpc(SendTo.Everyone)]
+    public void EndGameRpc()
     {
-        bombSpawner.Destroy();
-        startButton.isPressed = false;
-        startButton.isBeingPressed = false;
-        GameObject[] buttons = GameObject.FindGameObjectsWithTag("Button");
-        foreach (GameObject button in buttons)
-        {
-            MeshRenderer[] meshRenderers = button.GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer meshRenderer in meshRenderers)
-            {
-                meshRenderer.enabled = true;
-            }
-        }
+        bombSpawner.Stop();
+        button.GetComponent<StartButton>().isPressed = false;
+        button.GetComponent<StartButton>().isBeingPressed = false;
+        button.SetActive(true);
     }
     
 }
