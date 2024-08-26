@@ -1,15 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
 using Unity.Netcode;
-using Unity.Netcode.Components;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
-public class BombHeatSeeking : MonoBehaviour
+public class BombHeatSeeking : NetworkBehaviour
 {
     private GameObject closestPlayer;
     private GameObject playerManager;
@@ -18,6 +13,7 @@ public class BombHeatSeeking : MonoBehaviour
     public float speed;
     [SerializeField] private float rotateSpeed;
     private bool waiting = false;
+    private GameObject collisionObject;
 
 
 
@@ -26,16 +22,19 @@ public class BombHeatSeeking : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerManager = GameObject.Find("PlayerManager");
+        playerManager = GameObject.Find("GameManager");
         playersList = playerManager.GetComponent<BombPlayersManager>().GetPlayersList();
         rb = GetComponent<Rigidbody>();
-        rb.isKinematic = false;
-
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        if(!IsServer)
+        {
+            return;
+        }
+
         if(playersList == null)
         {
             playersList = playerManager.GetComponent<BombPlayersManager>().GetPlayersList();
@@ -70,17 +69,21 @@ public class BombHeatSeeking : MonoBehaviour
         rb.MoveRotation(Quaternion.RotateTowards(transform.rotation, rotation, rotateSpeed));
     }
 
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
+
+        // if(!IsServer)
+        // {
+        //     return;
+        // }
         //Debug.Log("Collided with: " + other.gameObject.name);
         if(other.gameObject.name.Contains("Hand"))
         {   
-            NetworkObject otherNetworkObject = FindNetworkObject(other.gameObject);
-            GetComponent<NetworkObject>().ChangeOwnership(otherNetworkObject.OwnerClientId);
-            Rigidbody otherRb = other.gameObject.GetComponent<Rigidbody>();
             StopCoroutine(WaitAndFindClosestPlayer());
+            collisionObject = other.gameObject;
             closestPlayer = null;
-            rb.AddForce(otherRb.velocity.normalized * 50, ForceMode.VelocityChange);
+            Rigidbody otherRb = other.gameObject.GetComponentInParent<Rigidbody>();
+            rb.AddForce(otherRb.velocity.normalized, ForceMode.Impulse);
             StartCoroutine(WaitAndFindClosestPlayer());
             
             // transform.position = Vector3.MoveTowards(transform.position, closestPlayer.transform.position, Vector3.Magnitude(rb.velocity));
